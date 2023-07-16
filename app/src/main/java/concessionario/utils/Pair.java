@@ -1,4 +1,4 @@
-package concessionario.common;
+package concessionario.utils;
 
 /**
  * Generic class Pair<X, Y>.
