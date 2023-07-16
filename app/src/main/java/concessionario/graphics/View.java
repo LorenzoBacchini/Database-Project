@@ -200,7 +200,7 @@ public class View extends javax.swing.JFrame {
         Contratti.setLayout(ContrattiLayout);
         ContrattiLayout.setHorizontalGroup(
             ContrattiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1209, Short.MAX_VALUE)
+            .addGap(0, 1300, Short.MAX_VALUE)
         );
         ContrattiLayout.setVerticalGroup(
             ContrattiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,7 +213,7 @@ public class View extends javax.swing.JFrame {
         Privati.setLayout(PrivatiLayout);
         PrivatiLayout.setHorizontalGroup(
             PrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1209, Short.MAX_VALUE)
+            .addGap(0, 1300, Short.MAX_VALUE)
         );
         PrivatiLayout.setVerticalGroup(
             PrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,7 +226,7 @@ public class View extends javax.swing.JFrame {
         Aziende.setLayout(AziendeLayout);
         AziendeLayout.setHorizontalGroup(
             AziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1209, Short.MAX_VALUE)
+            .addGap(0, 1300, Short.MAX_VALUE)
         );
         AziendeLayout.setVerticalGroup(
             AziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,7 +239,7 @@ public class View extends javax.swing.JFrame {
         Dipendenti.setLayout(DipendentiLayout);
         DipendentiLayout.setHorizontalGroup(
             DipendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1209, Short.MAX_VALUE)
+            .addGap(0, 1300, Short.MAX_VALUE)
         );
         DipendentiLayout.setVerticalGroup(
             DipendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -443,10 +443,11 @@ public class View extends javax.swing.JFrame {
                 .addComponent(VisualizzaAutoDisponibili)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(AutoPiuRichiesta)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
         TabellaAuto1.setAutoCreateRowSorter(true);
+        TabellaAuto1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         TabellaAuto1.setEnabled(false);
         TabellaAuto.setViewportView(TabellaAuto1);
 
@@ -454,14 +455,14 @@ public class View extends javax.swing.JFrame {
         TabellaAutoPanel.setLayout(TabellaAutoPanelLayout);
         TabellaAutoPanelLayout.setHorizontalGroup(
             TabellaAutoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TabellaAutoPanelLayout.createSequentialGroup()
+            .addGroup(TabellaAutoPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(TabellaAuto, javax.swing.GroupLayout.DEFAULT_SIZE, 905, Short.MAX_VALUE)
+                .addComponent(TabellaAuto, javax.swing.GroupLayout.DEFAULT_SIZE, 996, Short.MAX_VALUE)
                 .addContainerGap())
         );
         TabellaAutoPanelLayout.setVerticalGroup(
             TabellaAutoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(TabellaAuto, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+            .addComponent(TabellaAuto, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         javax.swing.GroupLayout AutoLayout = new javax.swing.GroupLayout(Auto);
@@ -472,7 +473,7 @@ public class View extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(OperazioniAuto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(TabellaAutoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TabellaAutoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         AutoLayout.setVerticalGroup(

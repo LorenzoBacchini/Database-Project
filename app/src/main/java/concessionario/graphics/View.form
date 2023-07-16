@@ -50,7 +50,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="1209" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="1300" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -72,7 +72,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="1209" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="1300" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -94,7 +94,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="1209" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="1300" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -116,7 +116,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="1209" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="1300" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -142,7 +142,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="OperazioniAuto" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="TabellaAutoPanel" min="-2" max="-2" attributes="0"/>
+                      <Component id="TabellaAutoPanel" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -275,7 +275,7 @@
                           <Component id="VisualizzaAutoDisponibili" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="AutoPiuRichiesta" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="72" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -422,16 +422,16 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="TabellaAuto" pref="905" max="32767" attributes="0"/>
+                          <Component id="TabellaAuto" pref="996" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="TabellaAuto" alignment="0" pref="542" max="32767" attributes="0"/>
+                      <Component id="TabellaAuto" alignment="1" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -446,6 +446,7 @@
                     <Component class="javax.swing.JTable" name="TabellaAuto1">
                       <Properties>
                         <Property name="autoCreateRowSorter" type="boolean" value="true"/>
+                        <Property name="autoResizeMode" type="int" value="4"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
