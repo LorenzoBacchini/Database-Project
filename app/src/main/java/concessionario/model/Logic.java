@@ -16,12 +16,8 @@ import concessionario.db.tables.Auto;
 import concessionario.db.tables.Azienda;
 import concessionario.db.tables.Contratto;
 import concessionario.db.tables.Dipendente;
-import concessionario.db.tables.Marca;
 import concessionario.db.tables.Modello;
-import concessionario.db.tables.Noleggio;
 import concessionario.db.tables.Privato;
-import concessionario.db.tables.Sconto;
-import concessionario.db.tables.Vendita;
 
 public class Logic {
     final private Connection connection;
@@ -276,6 +272,42 @@ public class Logic {
                 privato.add(p);
             }
             return privato;
+        } catch (final SQLException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public boolean insertAziende(final long partita_iva, final String nome, final String sede, final int fatturato){
+        final String query = "INSERT INTO azienda (Partita_iva, Nome, Sede, Fatturato)"+
+            "VALUES (?, ?, ?, ?);";
+        try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setLong(1, partita_iva);
+            statement.setString(2, nome);
+            statement.setString(3, sede);
+            statement.setInt(4, fatturato);
+            statement.executeUpdate();
+            return true;
+        } catch (final SQLException e) {
+            return false;
+        }
+    }
+
+    public List<Azienda> getAziende(){
+        final String query = "SELECT * FROM azienda;";
+
+        try (final Statement statement = this.connection.createStatement()) {
+            final ResultSet result = statement.executeQuery(query);
+            final List<Azienda> azienda = new ArrayList<>();
+            while (result.next()) {
+                final long partita_iva = result.getLong("Partita_iva");
+                final String nome = result.getString("Nome");
+                final String sede = result.getString("Sede");
+                final int fatturato = result.getInt("Fatturato");
+                
+                final Azienda a = new Azienda(partita_iva, nome, sede, fatturato);
+                azienda.add(a);
+            }
+            return azienda;
         } catch (final SQLException e) {
             throw new IllegalStateException(e);
         }

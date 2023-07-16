@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import concessionario.db.tables.Auto;
+import concessionario.db.tables.Azienda;
 import concessionario.db.tables.Modello;
 import concessionario.db.tables.Privato;
 
@@ -25,7 +26,8 @@ import concessionario.db.tables.Privato;
 public class View extends javax.swing.JFrame {
     private final Logic logic;
     private Map<String, JTextField> insertAutoFields = new HashMap<>();
-    private Map<String, JTextField> insertPrivatiFields= new HashMap<>();
+    private Map<String, JTextField> insertPrivatiFields = new HashMap<>();
+    private Map<String, JTextField> insertAziendeFields = new HashMap<>(); 
     /**
      * Creates new form View
      */
@@ -155,6 +157,19 @@ public class View extends javax.swing.JFrame {
         }
     }
 
+    private void loadAziende(){
+        String[] colName = new String[4];
+        colName[0] = "Partita_iva";
+        colName[1] = "Nome";
+        colName[2] = "Sede";
+        colName[3] = "Fatturato";
+        ((javax.swing.table.DefaultTableModel) this.TabellaAziende1.getModel()).setColumnIdentifiers(colName);
+        for (Azienda a : this.logic.getAziende()) {
+            final String[] row = {String.valueOf(a.getPartita_iva()), a.getNome(), a.getSede(), String.valueOf(a.getFatturato())};
+            ((javax.swing.table.DefaultTableModel) this.TabellaAziende1.getModel()).addRow(row);
+        }
+    }
+
 
     /**
      * Method to inizialize the group of button and textField with the same
@@ -172,6 +187,12 @@ public class View extends javax.swing.JFrame {
         this.insertPrivatiFields.put("codice_fiscale", this.InserisciCodice_fiscale);
         this.insertPrivatiFields.put("numero_di_telefono", this.InserisciNumero_di_telefono);
         this.insertPrivatiFields.put("e_mail", this.InserisciE_mail);
+
+        this.insertAziendeFields.put("partita_iva", this.InserisciPartita_Iva);
+        this.insertAziendeFields.put("nome", this.InserisciNomeAzienda);
+        this.insertAziendeFields.put("sede", this.InserisciSede);
+        this.insertAziendeFields.put("fatturato", this.InserisciFatturato);
+
     }
 
     /**
@@ -213,9 +234,9 @@ public class View extends javax.swing.JFrame {
         InserisciFatturato = new javax.swing.JTextField();
         jTextField16 = new javax.swing.JTextField();
         InserisciAzienda = new javax.swing.JButton();
-        TabellaPrivatiPanel1 = new javax.swing.JPanel();
-        TabellaPrivati2 = new javax.swing.JScrollPane();
-        TabellaPrivati3 = new javax.swing.JTable();
+        TabellaAziendePanel = new javax.swing.JPanel();
+        TabellaAziende = new javax.swing.JScrollPane();
+        TabellaAziende1 = new javax.swing.JTable();
         Dipendenti = new javax.swing.JPanel();
         Auto = new javax.swing.JPanel();
         OperazioniAuto = new javax.swing.JPanel();
@@ -408,7 +429,7 @@ public class View extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Privati", Privati);
 
-        VisualizzaAziende.setText("VIsualizza Privati");
+        VisualizzaAziende.setText("Visualizza aziende");
         VisualizzaAziende.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 VisualizzaAziendeActionPerformed(evt);
@@ -438,7 +459,7 @@ public class View extends javax.swing.JFrame {
         jTextField16.setEditable(false);
         jTextField16.setText("Fatturato");
 
-        InserisciAzienda.setText("Inserisci Privato");
+        InserisciAzienda.setText("Inserisci azienda");
         InserisciAzienda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 InserisciAziendaActionPerformed(evt);
@@ -494,24 +515,27 @@ public class View extends javax.swing.JFrame {
                     .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(InserisciAzienda)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(366, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout TabellaPrivatiPanel1Layout = new javax.swing.GroupLayout(TabellaPrivatiPanel1);
-        TabellaPrivatiPanel1.setLayout(TabellaPrivatiPanel1Layout);
-        TabellaPrivatiPanel1Layout.setHorizontalGroup(
-            TabellaPrivatiPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1090, Short.MAX_VALUE)
-        );
-        TabellaPrivatiPanel1Layout.setVerticalGroup(
-            TabellaPrivatiPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 542, Short.MAX_VALUE)
-        );
+        TabellaAziende1.setAutoCreateRowSorter(true);
+        TabellaAziende1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        TabellaAziende1.setEnabled(false);
+        TabellaAziende.setViewportView(TabellaAziende1);
 
-        TabellaPrivati3.setAutoCreateRowSorter(true);
-        TabellaPrivati3.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        TabellaPrivati3.setEnabled(false);
-        TabellaPrivati2.setViewportView(TabellaPrivati3);
+        javax.swing.GroupLayout TabellaAziendePanelLayout = new javax.swing.GroupLayout(TabellaAziendePanel);
+        TabellaAziendePanel.setLayout(TabellaAziendePanelLayout);
+        TabellaAziendePanelLayout.setHorizontalGroup(
+            TabellaAziendePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TabellaAziendePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(TabellaAziende, javax.swing.GroupLayout.DEFAULT_SIZE, 1078, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        TabellaAziendePanelLayout.setVerticalGroup(
+            TabellaAziendePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(TabellaAziende, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout AziendeLayout = new javax.swing.GroupLayout(Aziende);
         Aziende.setLayout(AziendeLayout);
@@ -520,28 +544,18 @@ public class View extends javax.swing.JFrame {
             .addGroup(AziendeLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(OperazioniAziende, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(TabellaPrivati2, javax.swing.GroupLayout.DEFAULT_SIZE, 1084, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TabellaAziendePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(AziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(AziendeLayout.createSequentialGroup()
-                    .addGap(105, 105, 105)
-                    .addComponent(TabellaPrivatiPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGap(105, 105, 105)))
         );
         AziendeLayout.setVerticalGroup(
             AziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(AziendeLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AziendeLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(AziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TabellaPrivati2, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+                .addGroup(AziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(TabellaAziendePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(OperazioniAziende, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(AziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(AziendeLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(TabellaPrivatiPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
         );
 
         jTabbedPane1.addTab("Aziende", Aziende);
@@ -968,7 +982,9 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_InserisciPrivatoActionPerformed
 
     private void VisualizzaAziendeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaAziendeActionPerformed
-        // TODO add your handling code here:
+        ((javax.swing.table.DefaultTableModel) this.TabellaAziende1.getModel()).setRowCount(0);
+        this.loadAziende();
+        this.repaint();
     }//GEN-LAST:event_VisualizzaAziendeActionPerformed
 
     private void jTextField13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField13ActionPerformed
@@ -980,7 +996,24 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_InserisciNomeAziendaActionPerformed
 
     private void InserisciAziendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciAziendaActionPerformed
-        // TODO add your handling code here:
+        for (JTextField field : this.insertAziendeFields.values()) {
+            if(field.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+        long partita_iva = Long.parseLong(this.insertAziendeFields.get("partita_iva").getText());
+        String nome = this.insertAziendeFields.get("nome").getText();
+        String sede = this.insertAziendeFields.get("sede").getText();
+        int fatturato = Integer.parseInt((this.insertAziendeFields.get("fatturato").getText()));
+        if(this.logic.insertAziende(partita_iva, nome, sede, fatturato)){
+            JOptionPane.showMessageDialog(this, "Azienda inserita correttamente", "Inserimento", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Azienda non inserita", "Inserimento", JOptionPane.ERROR_MESSAGE);
+        }
+        for (JTextField field : this.insertAziendeFields.values()) {
+            field.setText("");
+        }
     }//GEN-LAST:event_InserisciAziendaActionPerformed
 
     public void initLook() {
@@ -1041,12 +1074,12 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JScrollPane TabellaAuto;
     private javax.swing.JTable TabellaAuto1;
     private javax.swing.JPanel TabellaAutoPanel;
+    private javax.swing.JScrollPane TabellaAziende;
+    private javax.swing.JTable TabellaAziende1;
+    private javax.swing.JPanel TabellaAziendePanel;
     private javax.swing.JScrollPane TabellaPrivati;
     private javax.swing.JTable TabellaPrivati1;
-    private javax.swing.JScrollPane TabellaPrivati2;
-    private javax.swing.JTable TabellaPrivati3;
     private javax.swing.JPanel TabellaPrivatiPanel;
-    private javax.swing.JPanel TabellaPrivatiPanel1;
     private javax.swing.JButton VisualizzaAuto;
     private javax.swing.JButton VisualizzaAutoDisponibili;
     private javax.swing.JButton VisualizzaAziende;
