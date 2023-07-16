@@ -6,11 +6,15 @@ package concessionario;
 import java.sql.Connection;
 
 import concessionario.db.ConnectionProvider;
+import concessionario.graphics.View;
+import concessionario.model.Logic;
 
 public class Concessionario {
 
     public static void main(String[] args) {
         final ConnectionProvider connectionProvider = new ConnectionProvider("root","nretIOGbiiuhDE789", "concessionario");
         final Connection connection = connectionProvider.getMySQLConnection();
+        final Logic logic = new Logic(connection);
+        new View(logic);
     }
 }
