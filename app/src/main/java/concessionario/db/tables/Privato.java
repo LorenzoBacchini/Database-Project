@@ -4,10 +4,10 @@ public class Privato {
     private final String nome;
     private final String cognome;
     private final String codice_fiscale;
-    private final int numero_di_telefono;
+    private final long numero_di_telefono;
     private final String e_mail;
     
-    public Privato(String nome, String cognome, String codice_fiscale, int numero_di_telefono, String e_mail) {
+    public Privato(String nome, String cognome, String codice_fiscale, Long numero_di_telefono, String e_mail) {
         this.nome = nome;
         this.cognome = cognome;
         this.codice_fiscale = codice_fiscale;
@@ -27,7 +27,7 @@ public class Privato {
         return codice_fiscale;
     }
 
-    public int getNumero_di_telefono() {
+    public long getNumero_di_telefono() {
         return numero_di_telefono;
     }
 

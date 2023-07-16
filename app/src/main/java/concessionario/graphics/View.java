@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 
 import concessionario.db.tables.Auto;
 import concessionario.db.tables.Modello;
+import concessionario.db.tables.Privato;
 
 /**
  *
@@ -23,7 +24,8 @@ import concessionario.db.tables.Modello;
  */
 public class View extends javax.swing.JFrame {
     private final Logic logic;
-    private Map<String, JTextField> insertAutoFields = new HashMap<>(); 
+    private Map<String, JTextField> insertAutoFields = new HashMap<>();
+    private Map<String, JTextField> insertPrivatiFields= new HashMap<>();
     /**
      * Creates new form View
      */
@@ -139,6 +141,21 @@ public class View extends javax.swing.JFrame {
         }
     }
 
+    private void loadPrivati(){
+        String[] colName = new String[5];
+        colName[0] = "Nome";
+        colName[1] = "Cognome";
+        colName[2] = "Codice fiscale";
+        colName[3] = "Numero di telefono";
+        colName[4] = "E-Mail";
+        ((javax.swing.table.DefaultTableModel) this.TabellaPrivati1.getModel()).setColumnIdentifiers(colName);
+        for (Privato p : this.logic.getPrivati()) {
+            final String[] row = {p.getNome(), p.getCognome(), p.getCodice_fiscale(), String.valueOf(p.getNumero_di_telefono()), p.getE_mail()};
+            ((javax.swing.table.DefaultTableModel) this.TabellaPrivati1.getModel()).addRow(row);
+        }
+    }
+
+
     /**
      * Method to inizialize the group of button and textField with the same
      * or correlated function
@@ -149,6 +166,12 @@ public class View extends javax.swing.JFrame {
         this.insertAutoFields.put("numero_di_telaio", this.InserisciNumero_di_telaio);
         this.insertAutoFields.put("marca", this.InserisciMarca);
         this.insertAutoFields.put("modello", this.InserisciModello);
+
+        this.insertPrivatiFields.put("nome", this.InserisciNome);
+        this.insertPrivatiFields.put("cognome", this.InserisciCognome);
+        this.insertPrivatiFields.put("codice_fiscale", this.InserisciCodice_fiscale);
+        this.insertPrivatiFields.put("numero_di_telefono", this.InserisciNumero_di_telefono);
+        this.insertPrivatiFields.put("e_mail", this.InserisciE_mail);
     }
 
     /**
@@ -162,7 +185,37 @@ public class View extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         Contratti = new javax.swing.JPanel();
         Privati = new javax.swing.JPanel();
+        OperazioniPrivati = new javax.swing.JPanel();
+        VisualizzaPrivati = new javax.swing.JButton();
+        jTextField8 = new javax.swing.JTextField();
+        InserisciNome = new javax.swing.JTextField();
+        jTextField9 = new javax.swing.JTextField();
+        InserisciCognome = new javax.swing.JTextField();
+        InserisciCodice_fiscale = new javax.swing.JTextField();
+        jTextField10 = new javax.swing.JTextField();
+        InserisciNumero_di_telefono = new javax.swing.JTextField();
+        jTextField11 = new javax.swing.JTextField();
+        jTextField12 = new javax.swing.JTextField();
+        InserisciE_mail = new javax.swing.JTextField();
+        InserisciPrivato = new javax.swing.JButton();
+        TabellaPrivatiPanel = new javax.swing.JPanel();
+        TabellaPrivati = new javax.swing.JScrollPane();
+        TabellaPrivati1 = new javax.swing.JTable();
         Aziende = new javax.swing.JPanel();
+        OperazioniAziende = new javax.swing.JPanel();
+        VisualizzaAziende = new javax.swing.JButton();
+        jTextField13 = new javax.swing.JTextField();
+        InserisciPartita_Iva = new javax.swing.JTextField();
+        jTextField14 = new javax.swing.JTextField();
+        InserisciNomeAzienda = new javax.swing.JTextField();
+        InserisciSede = new javax.swing.JTextField();
+        jTextField15 = new javax.swing.JTextField();
+        InserisciFatturato = new javax.swing.JTextField();
+        jTextField16 = new javax.swing.JTextField();
+        InserisciAzienda = new javax.swing.JButton();
+        TabellaPrivatiPanel1 = new javax.swing.JPanel();
+        TabellaPrivati2 = new javax.swing.JScrollPane();
+        TabellaPrivati3 = new javax.swing.JTable();
         Dipendenti = new javax.swing.JPanel();
         Auto = new javax.swing.JPanel();
         OperazioniAuto = new javax.swing.JPanel();
@@ -209,28 +262,286 @@ public class View extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Contratti", Contratti);
 
+        VisualizzaPrivati.setText("VIsualizza Privati");
+        VisualizzaPrivati.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VisualizzaPrivatiActionPerformed(evt);
+            }
+        });
+
+        jTextField8.setEditable(false);
+        jTextField8.setText("Nome");
+        jTextField8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField8ActionPerformed(evt);
+            }
+        });
+
+        jTextField9.setEditable(false);
+        jTextField9.setText("Cognome");
+
+        InserisciCognome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserisciCognomeActionPerformed(evt);
+            }
+        });
+
+        jTextField10.setEditable(false);
+        jTextField10.setText("Codice fiscale");
+
+        jTextField11.setEditable(false);
+        jTextField11.setText("Numero di telefono");
+
+        jTextField12.setEditable(false);
+        jTextField12.setText("E-mail");
+
+        InserisciE_mail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserisciE_mailActionPerformed(evt);
+            }
+        });
+
+        InserisciPrivato.setText("Inserisci Privato");
+        InserisciPrivato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserisciPrivatoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout OperazioniPrivatiLayout = new javax.swing.GroupLayout(OperazioniPrivati);
+        OperazioniPrivati.setLayout(OperazioniPrivatiLayout);
+        OperazioniPrivatiLayout.setHorizontalGroup(
+            OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OperazioniPrivatiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(VisualizzaPrivati)
+                    .addComponent(InserisciPrivato)
+                    .addGroup(OperazioniPrivatiLayout.createSequentialGroup()
+                        .addGroup(OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(InserisciNumero_di_telefono, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(InserisciCodice_fiscale, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(InserisciCognome, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(InserisciE_mail, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(InserisciNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        OperazioniPrivatiLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextField10, jTextField11, jTextField12, jTextField8, jTextField9});
+
+        OperazioniPrivatiLayout.setVerticalGroup(
+            OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OperazioniPrivatiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(VisualizzaPrivati)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(InserisciNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(InserisciCognome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(InserisciCodice_fiscale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(InserisciNumero_di_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(InserisciE_mail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(InserisciPrivato)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        TabellaPrivati1.setAutoCreateRowSorter(true);
+        TabellaPrivati1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        TabellaPrivati1.setEnabled(false);
+        TabellaPrivati.setViewportView(TabellaPrivati1);
+
+        javax.swing.GroupLayout TabellaPrivatiPanelLayout = new javax.swing.GroupLayout(TabellaPrivatiPanel);
+        TabellaPrivatiPanel.setLayout(TabellaPrivatiPanelLayout);
+        TabellaPrivatiPanelLayout.setHorizontalGroup(
+            TabellaPrivatiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TabellaPrivatiPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(TabellaPrivati, javax.swing.GroupLayout.DEFAULT_SIZE, 1054, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        TabellaPrivatiPanelLayout.setVerticalGroup(
+            TabellaPrivatiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(TabellaPrivati, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout PrivatiLayout = new javax.swing.GroupLayout(Privati);
         Privati.setLayout(PrivatiLayout);
         PrivatiLayout.setHorizontalGroup(
             PrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1300, Short.MAX_VALUE)
+            .addGroup(PrivatiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(OperazioniPrivati, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(TabellaPrivatiPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         PrivatiLayout.setVerticalGroup(
             PrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PrivatiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(TabellaPrivatiPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(OperazioniPrivati, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Privati", Privati);
+
+        VisualizzaAziende.setText("VIsualizza Privati");
+        VisualizzaAziende.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VisualizzaAziendeActionPerformed(evt);
+            }
+        });
+
+        jTextField13.setEditable(false);
+        jTextField13.setText("Partita iva");
+        jTextField13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField13ActionPerformed(evt);
+            }
+        });
+
+        jTextField14.setEditable(false);
+        jTextField14.setText("Nome");
+
+        InserisciNomeAzienda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserisciNomeAziendaActionPerformed(evt);
+            }
+        });
+
+        jTextField15.setEditable(false);
+        jTextField15.setText("Sede");
+
+        jTextField16.setEditable(false);
+        jTextField16.setText("Fatturato");
+
+        InserisciAzienda.setText("Inserisci Privato");
+        InserisciAzienda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserisciAziendaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout OperazioniAziendeLayout = new javax.swing.GroupLayout(OperazioniAziende);
+        OperazioniAziende.setLayout(OperazioniAziendeLayout);
+        OperazioniAziendeLayout.setHorizontalGroup(
+            OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OperazioniAziendeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(OperazioniAziendeLayout.createSequentialGroup()
+                        .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                        .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(InserisciFatturato, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(InserisciSede, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(InserisciNomeAzienda, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(InserisciPartita_Iva, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(OperazioniAziendeLayout.createSequentialGroup()
+                        .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(VisualizzaAziende)
+                            .addComponent(InserisciAzienda))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        OperazioniAziendeLayout.setVerticalGroup(
+            OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OperazioniAziendeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(VisualizzaAziende)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(InserisciPartita_Iva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(InserisciNomeAzienda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(InserisciSede, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(InserisciFatturato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(InserisciAzienda)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout TabellaPrivatiPanel1Layout = new javax.swing.GroupLayout(TabellaPrivatiPanel1);
+        TabellaPrivatiPanel1.setLayout(TabellaPrivatiPanel1Layout);
+        TabellaPrivatiPanel1Layout.setHorizontalGroup(
+            TabellaPrivatiPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1090, Short.MAX_VALUE)
+        );
+        TabellaPrivatiPanel1Layout.setVerticalGroup(
+            TabellaPrivatiPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 542, Short.MAX_VALUE)
+        );
+
+        TabellaPrivati3.setAutoCreateRowSorter(true);
+        TabellaPrivati3.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        TabellaPrivati3.setEnabled(false);
+        TabellaPrivati2.setViewportView(TabellaPrivati3);
 
         javax.swing.GroupLayout AziendeLayout = new javax.swing.GroupLayout(Aziende);
         Aziende.setLayout(AziendeLayout);
         AziendeLayout.setHorizontalGroup(
             AziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1300, Short.MAX_VALUE)
+            .addGroup(AziendeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(OperazioniAziende, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(TabellaPrivati2, javax.swing.GroupLayout.DEFAULT_SIZE, 1084, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(AziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(AziendeLayout.createSequentialGroup()
+                    .addGap(105, 105, 105)
+                    .addComponent(TabellaPrivatiPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(105, 105, 105)))
         );
         AziendeLayout.setVerticalGroup(
             AziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
+            .addGroup(AziendeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(AziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(TabellaPrivati2, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+                    .addComponent(OperazioniAziende, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(AziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(AziendeLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(TabellaPrivatiPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         jTabbedPane1.addTab("Aziende", Aziende);
@@ -502,15 +813,83 @@ public class View extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void VisualizzaAutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaAutoActionPerformed
+    private void AutoPiuRichiestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AutoPiuRichiestaActionPerformed
         ((javax.swing.table.DefaultTableModel) this.TabellaAuto1.getModel()).setRowCount(0);
-        this.loadAuto();
+        this.loadAutoPiuRichiesta();
         this.repaint();
-    }//GEN-LAST:event_VisualizzaAutoActionPerformed
+    }//GEN-LAST:event_AutoPiuRichiestaActionPerformed
 
-    private void InserisciAnno_di_immatricolazioeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciAnno_di_immatricolazioeActionPerformed
+    private void VisualizzaAutoDisponibiliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaAutoDisponibiliActionPerformed
+        ((javax.swing.table.DefaultTableModel) this.TabellaAuto1.getModel()).setRowCount(0);
+        this.loadAutoDisponibili();
+        this.repaint();
+    }//GEN-LAST:event_VisualizzaAutoDisponibiliActionPerformed
+
+    private void VisualizzaStatoAutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaStatoAutoActionPerformed
+        if(this.StatoTarga.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String targa = this.StatoTarga.getText();
+        String stato = this.logic.getStatoAuto(targa);
+        if(stato=="Errore"){
+            JOptionPane.showMessageDialog(this, "Auto non trovata", "lettura", JOptionPane.ERROR_MESSAGE);
+        } else {
+            this.StatoAuto.setText(stato);
+            this.repaint();
+        }
+        for (JTextField field : this.insertAutoFields.values()) {
+            field.setText("");
+        }
+    }//GEN-LAST:event_VisualizzaStatoAutoActionPerformed
+
+    private void VisualizzaStoricoAziendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaStoricoAziendaActionPerformed
+        if(this.StoricoTarga.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String targa = this.StoricoTarga.getText();
+        List<String> info = this.logic.getHistoryAzienda(targa);
+        if(info.size()>0){
+            ((javax.swing.table.DefaultTableModel) this.TabellaAuto1.getModel()).setRowCount(0);
+            this.loadHistoryAzienda(info);
+            this.repaint();
+        } else {
+            JOptionPane.showMessageDialog(this, "Nessuno Storico per la targa selezionata", "lettura", JOptionPane.ERROR_MESSAGE);
+        }
+        for (JTextField field : this.insertAutoFields.values()) {
+            field.setText("");
+        }
+    }//GEN-LAST:event_VisualizzaStoricoAziendaActionPerformed
+
+    private void VisualizzaStoricoPrivatiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaStoricoPrivatiActionPerformed
+        if(this.StoricoTarga.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String targa = this.StoricoTarga.getText();
+        List<String> info = this.logic.getHistoryPrivati(targa);
+        if(info.size()>0){
+            ((javax.swing.table.DefaultTableModel) this.TabellaAuto1.getModel()).setRowCount(0);
+            this.loadHistoryPrivati(info);
+            this.repaint();
+        } else {
+            JOptionPane.showMessageDialog(this, "Nessuno Storico per la targa selezionata", "lettura", JOptionPane.ERROR_MESSAGE);
+        }
+        for (JTextField field : this.insertAutoFields.values()) {
+            field.setText("");
+        }
+    }//GEN-LAST:event_VisualizzaStoricoPrivatiActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_InserisciAnno_di_immatricolazioeActionPerformed
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void VisualizzaModelliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaModelliActionPerformed
+        ((javax.swing.table.DefaultTableModel) this.TabellaAuto1.getModel()).setRowCount(0);
+        this.loadModello();
+        this.repaint();
+    }//GEN-LAST:event_VisualizzaModelliActionPerformed
 
     private void InserisciAutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciAutoActionPerformed
         for (JTextField field : this.insertAutoFields.values()) {
@@ -519,118 +898,90 @@ public class View extends javax.swing.JFrame {
                 return;
             }
         }
-        try {
-            String targa = this.insertAutoFields.get("targa").getText();
-            int anno_di_immatricolazione = Integer.parseInt(this.insertAutoFields.get("anno_di_immatricolazione").getText());
-            String numero_di_telaio = this.insertAutoFields.get("numero_di_telaio").getText();
-            String marca = this.insertAutoFields.get("marca").getText();
-            String modello = this.insertAutoFields.get("modello").getText();
-            if(this.logic.insertAuto(targa, anno_di_immatricolazione, numero_di_telaio, marca, modello)){
-                JOptionPane.showMessageDialog(this, "Auto inserita correttamente", "Inserimento", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Auto non inserita", "Inserimento", JOptionPane.ERROR_MESSAGE);
-            }
-            for (JTextField field : this.insertAutoFields.values()) {
-                field.setText("");
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Inserire un numero valido", "Errore", JOptionPane.ERROR_MESSAGE);
+        String targa = this.insertAutoFields.get("targa").getText();
+        int anno_di_immatricolazione = Integer.parseInt(this.insertAutoFields.get("anno_di_immatricolazione").getText());
+        String numero_di_telaio = this.insertAutoFields.get("numero_di_telaio").getText();
+        String marca = this.insertAutoFields.get("marca").getText();
+        String modello = this.insertAutoFields.get("modello").getText();
+        if(this.logic.insertAuto(targa, anno_di_immatricolazione, numero_di_telaio, marca, modello)){
+            JOptionPane.showMessageDialog(this, "Auto inserita correttamente", "Inserimento", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Auto non inserita", "Inserimento", JOptionPane.ERROR_MESSAGE);
+        }
+        for (JTextField field : this.insertAutoFields.values()) {
+            field.setText("");
         }
     }//GEN-LAST:event_InserisciAutoActionPerformed
-
-    private void VisualizzaModelliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaModelliActionPerformed
-        ((javax.swing.table.DefaultTableModel) this.TabellaAuto1.getModel()).setRowCount(0);
-        this.loadModello();
-        this.repaint();
-    }//GEN-LAST:event_VisualizzaModelliActionPerformed
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void InserisciModelloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciModelloActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_InserisciModelloActionPerformed
 
-    private void VisualizzaStoricoPrivatiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaStoricoPrivatiActionPerformed
-        if(this.StoricoTarga.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        try {
-            String targa = this.StoricoTarga.getText();
-            List<String> info = this.logic.getHistoryPrivati(targa);
-            if(info.size()>0){
-                ((javax.swing.table.DefaultTableModel) this.TabellaAuto1.getModel()).setRowCount(0);
-                this.loadHistoryPrivati(info);
-                this.repaint();
-            } else {
-                JOptionPane.showMessageDialog(this, "Nessuno Storico per la targa selezionata", "lettura", JOptionPane.ERROR_MESSAGE);
-            }
-            for (JTextField field : this.insertAutoFields.values()) {
-                field.setText("");
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Inserire un numero valido", "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_VisualizzaStoricoPrivatiActionPerformed
+    private void InserisciAnno_di_immatricolazioeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciAnno_di_immatricolazioeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InserisciAnno_di_immatricolazioeActionPerformed
 
-    private void VisualizzaStoricoAziendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaStoricoAziendaActionPerformed
-        if(this.StoricoTarga.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        try {
-            String targa = this.StoricoTarga.getText();
-            List<String> info = this.logic.getHistoryAzienda(targa);
-            if(info.size()>0){
-                ((javax.swing.table.DefaultTableModel) this.TabellaAuto1.getModel()).setRowCount(0);
-                this.loadHistoryAzienda(info);
-                this.repaint();
-            } else {
-                JOptionPane.showMessageDialog(this, "Nessuno Storico per la targa selezionata", "lettura", JOptionPane.ERROR_MESSAGE);
-            }
-            for (JTextField field : this.insertAutoFields.values()) {
-                field.setText("");
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Inserire un numero valido", "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_VisualizzaStoricoAziendaActionPerformed
-
-    private void VisualizzaStatoAutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaStatoAutoActionPerformed
-        if(this.StatoTarga.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        try {
-            String targa = this.StatoTarga.getText();
-            String stato = this.logic.getStatoAuto(targa);
-            if(stato=="Errore"){
-                JOptionPane.showMessageDialog(this, "Auto non trovata", "lettura", JOptionPane.ERROR_MESSAGE);
-            } else {
-                this.StatoAuto.setText(stato);
-                this.repaint();
-            }
-            for (JTextField field : this.insertAutoFields.values()) {
-                field.setText("");
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Inserire un numero valido", "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_VisualizzaStatoAutoActionPerformed
-
-    private void VisualizzaAutoDisponibiliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaAutoDisponibiliActionPerformed
+    private void VisualizzaAutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaAutoActionPerformed
         ((javax.swing.table.DefaultTableModel) this.TabellaAuto1.getModel()).setRowCount(0);
-        this.loadAutoDisponibili();
+        this.loadAuto();
         this.repaint();
-    }//GEN-LAST:event_VisualizzaAutoDisponibiliActionPerformed
+    }//GEN-LAST:event_VisualizzaAutoActionPerformed
 
-    private void AutoPiuRichiestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AutoPiuRichiestaActionPerformed
-        ((javax.swing.table.DefaultTableModel) this.TabellaAuto1.getModel()).setRowCount(0);
-        this.loadAutoPiuRichiesta();
+    private void VisualizzaPrivatiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaPrivatiActionPerformed
+        ((javax.swing.table.DefaultTableModel) this.TabellaPrivati1.getModel()).setRowCount(0);
+        this.loadPrivati();
         this.repaint();
-    }//GEN-LAST:event_AutoPiuRichiestaActionPerformed
+    }//GEN-LAST:event_VisualizzaPrivatiActionPerformed
+
+    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField8ActionPerformed
+
+    private void InserisciCognomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciCognomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InserisciCognomeActionPerformed
+
+    private void InserisciE_mailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciE_mailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InserisciE_mailActionPerformed
+
+    private void InserisciPrivatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciPrivatoActionPerformed
+        for (JTextField field : this.insertPrivatiFields.values()) {
+            if(field.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+        String nome = this.insertPrivatiFields.get("nome").getText();
+        String cognome = this.insertPrivatiFields.get("cognome").getText();
+        String codice_fiscale = this.insertPrivatiFields.get("codice_fiscale").getText();
+        long numero_di_telefono = Long.parseLong(this.insertPrivatiFields.get("numero_di_telefono").getText());
+        String e_mail = this.insertPrivatiFields.get("e_mail").getText();
+        if(this.logic.insertPrivati(nome, cognome, codice_fiscale, numero_di_telefono, e_mail)){
+            JOptionPane.showMessageDialog(this, "Privato inserito correttamente", "Inserimento", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Privato non inserito", "Inserimento", JOptionPane.ERROR_MESSAGE);
+        }
+        for (JTextField field : this.insertPrivatiFields.values()) {
+            field.setText("");
+        }
+    }//GEN-LAST:event_InserisciPrivatoActionPerformed
+
+    private void VisualizzaAziendeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaAziendeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VisualizzaAziendeActionPerformed
+
+    private void jTextField13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField13ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField13ActionPerformed
+
+    private void InserisciNomeAziendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciNomeAziendaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InserisciNomeAziendaActionPerformed
+
+    private void InserisciAziendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciAziendaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InserisciAziendaActionPerformed
 
     public void initLook() {
         /* Set the Nimbus look and feel */
@@ -665,11 +1016,24 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JPanel Dipendenti;
     private javax.swing.JTextField InserisciAnno_di_immatricolazioe;
     private javax.swing.JButton InserisciAuto;
+    private javax.swing.JButton InserisciAzienda;
+    private javax.swing.JTextField InserisciCodice_fiscale;
+    private javax.swing.JTextField InserisciCognome;
+    private javax.swing.JTextField InserisciE_mail;
+    private javax.swing.JTextField InserisciFatturato;
     private javax.swing.JTextField InserisciMarca;
     private javax.swing.JTextField InserisciModello;
+    private javax.swing.JTextField InserisciNome;
+    private javax.swing.JTextField InserisciNomeAzienda;
     private javax.swing.JTextField InserisciNumero_di_telaio;
+    private javax.swing.JTextField InserisciNumero_di_telefono;
+    private javax.swing.JTextField InserisciPartita_Iva;
+    private javax.swing.JButton InserisciPrivato;
+    private javax.swing.JTextField InserisciSede;
     private javax.swing.JTextField InserisciTarga;
     private javax.swing.JPanel OperazioniAuto;
+    private javax.swing.JPanel OperazioniAziende;
+    private javax.swing.JPanel OperazioniPrivati;
     private javax.swing.JPanel Privati;
     private javax.swing.JTextField StatoAuto;
     private javax.swing.JTextField StatoTarga;
@@ -677,19 +1041,36 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JScrollPane TabellaAuto;
     private javax.swing.JTable TabellaAuto1;
     private javax.swing.JPanel TabellaAutoPanel;
+    private javax.swing.JScrollPane TabellaPrivati;
+    private javax.swing.JTable TabellaPrivati1;
+    private javax.swing.JScrollPane TabellaPrivati2;
+    private javax.swing.JTable TabellaPrivati3;
+    private javax.swing.JPanel TabellaPrivatiPanel;
+    private javax.swing.JPanel TabellaPrivatiPanel1;
     private javax.swing.JButton VisualizzaAuto;
     private javax.swing.JButton VisualizzaAutoDisponibili;
+    private javax.swing.JButton VisualizzaAziende;
     private javax.swing.JButton VisualizzaModelli;
+    private javax.swing.JButton VisualizzaPrivati;
     private javax.swing.JButton VisualizzaStatoAuto;
     private javax.swing.JButton VisualizzaStoricoAzienda;
     private javax.swing.JButton VisualizzaStoricoPrivati;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField10;
+    private javax.swing.JTextField jTextField11;
+    private javax.swing.JTextField jTextField12;
+    private javax.swing.JTextField jTextField13;
+    private javax.swing.JTextField jTextField14;
+    private javax.swing.JTextField jTextField15;
+    private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
+    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
 }

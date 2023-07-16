@@ -241,4 +241,43 @@ public class Logic {
             throw new IllegalStateException(e);
         }
     }
+
+    public boolean insertPrivati(final String nome, final String cognome, final String codice_fiscale, 
+        final long numero_di_telefono, final String e_mail){
+        final String query = "INSERT INTO privato (Nome, Cognome, Codice_fiscale, Numero_di_telefono, E_mail)"+
+            "VALUES (?, ?, ?, ?, ?);";
+        try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setString(1, nome);
+            statement.setString(2, cognome);
+            statement.setString(3, codice_fiscale);
+            statement.setLong(4, numero_di_telefono);
+            statement.setString(5, e_mail);
+            statement.executeUpdate();
+            return true;
+        } catch (final SQLException e) {
+            return false;
+        }  
+    }
+
+    public List<Privato> getPrivati(){
+        final String query = "SELECT * FROM privato;";
+
+        try (final Statement statement = this.connection.createStatement()) {
+            final ResultSet result = statement.executeQuery(query);
+            final List<Privato> privato = new ArrayList<>();
+            while (result.next()) {
+                final String nome = result.getString("Nome");
+                final String cognome = result.getString("Cognome");
+                final String codice_fiscale = result.getString("Codice_fiscale");
+                final Long numero_di_telefono = result.getLong("Numero_di_telefono");
+                final String e_mail = result.getString("E_mail");
+                
+                final Privato p = new Privato(nome, cognome, codice_fiscale, numero_di_telefono, e_mail);
+                privato.add(p);
+            }
+            return privato;
+        } catch (final SQLException e) {
+            throw new IllegalStateException(e);
+        }
+    }
 }
