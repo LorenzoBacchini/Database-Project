@@ -301,6 +301,29 @@ public class Logic {
         }
     }
 
+    public List<String> getContrattiAzienda(final String partita_iva){
+        final String query = "SELECT c.*, a.Marca, a.Modello"+
+        " FROM contratto c, auto a"+
+        " WHERE c.Auto = a.Targa"+
+        " AND c.Azienda = ?;";
+        try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setString(1, partita_iva);
+            final ResultSet result = statement.executeQuery();
+            final List<String> info = new ArrayList<>();
+            while (result.next()) {
+                info.add(result.getString("Numero_di_contratto"));
+                info.add(result.getString("Azienda"));
+                info.add(result.getString("Dipendente"));
+                info.add(result.getString("Auto"));
+                info.add(result.getString("Marca"));
+                info.add(result.getString("Modello"));
+            }
+            return info;
+        } catch (final SQLException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
     public boolean insertAziende(final long partita_iva, final String nome, final String sede, final int fatturato){
         final String query = "INSERT INTO azienda (Partita_iva, Nome, Sede, Fatturato)"+
             "VALUES (?, ?, ?, ?);";

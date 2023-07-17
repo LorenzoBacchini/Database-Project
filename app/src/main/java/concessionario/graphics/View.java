@@ -161,7 +161,7 @@ public class View extends javax.swing.JFrame {
         }
     }
 
-    private void loadContrattiPrivato(List<String> info){
+    private void loadContrattiPrivato(final List<String> info){
         String[] colName = new String[6];
         colName[0] = "Numero di contratto";
         colName[1] = "Codice fiscale privato";
@@ -187,6 +187,23 @@ public class View extends javax.swing.JFrame {
         ((javax.swing.table.DefaultTableModel) this.TabellaAziende1.getModel()).setColumnIdentifiers(colName);
         for (Azienda a : this.logic.getAziende()) {
             final String[] row = {String.valueOf(a.getPartita_iva()), a.getNome(), a.getSede(), String.valueOf(a.getFatturato())};
+            ((javax.swing.table.DefaultTableModel) this.TabellaAziende1.getModel()).addRow(row);
+        }
+    }
+
+    private void loadContrattiAzienda(final List<String> info){
+        String[] colName = new String[6];
+        colName[0] = "Numero di contratto";
+        colName[1] = "Partita iva azienda";
+        colName[2] = "Codice fiscale dipendente";
+        colName[3] = "Targa";
+        colName[4] = "Marca";
+        colName[5] = "Modello";
+        ((javax.swing.table.DefaultTableModel) this.TabellaAziende1.getModel()).setColumnIdentifiers(colName);
+        Iterator<String> infoIterator = info.iterator();
+        while(infoIterator.hasNext()){
+            final String[] row = {infoIterator.next(), infoIterator.next(), infoIterator.next(), infoIterator.next(), infoIterator.next(),
+                    infoIterator.next()};
             ((javax.swing.table.DefaultTableModel) this.TabellaAziende1.getModel()).addRow(row);
         }
     }
@@ -281,6 +298,9 @@ public class View extends javax.swing.JFrame {
         InserisciFatturato = new javax.swing.JTextField();
         jTextField16 = new javax.swing.JTextField();
         InserisciAzienda = new javax.swing.JButton();
+        jTextField25 = new javax.swing.JTextField();
+        Partita_ivaStoricoContratti = new javax.swing.JTextField();
+        VisualizzaContrattiAzienda = new javax.swing.JButton();
         TabellaAziendePanel = new javax.swing.JPanel();
         TabellaAziende = new javax.swing.JScrollPane();
         TabellaAziende1 = new javax.swing.JTable();
@@ -571,6 +591,27 @@ public class View extends javax.swing.JFrame {
             }
         });
 
+        jTextField25.setEditable(false);
+        jTextField25.setText("Partita iva");
+        jTextField25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField25ActionPerformed(evt);
+            }
+        });
+
+        Partita_ivaStoricoContratti.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Partita_ivaStoricoContrattiActionPerformed(evt);
+            }
+        });
+
+        VisualizzaContrattiAzienda.setText("Visualizza contratti");
+        VisualizzaContrattiAzienda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VisualizzaContrattiAziendaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout OperazioniAziendeLayout = new javax.swing.GroupLayout(OperazioniAziende);
         OperazioniAziende.setLayout(OperazioniAziendeLayout);
         OperazioniAziendeLayout.setHorizontalGroup(
@@ -578,21 +619,29 @@ public class View extends javax.swing.JFrame {
             .addGroup(OperazioniAziendeLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OperazioniAziendeLayout.createSequentialGroup()
+                        .addComponent(jTextField25)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Partita_ivaStoricoContratti, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(OperazioniAziendeLayout.createSequentialGroup()
                         .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(InserisciFatturato, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(InserisciSede, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(InserisciNomeAzienda, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(InserisciPartita_Iva, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(VisualizzaAziende)
-                    .addComponent(InserisciAzienda))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(OperazioniAziendeLayout.createSequentialGroup()
+                                .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(InserisciFatturato, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(InserisciSede, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(InserisciNomeAzienda, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(InserisciPartita_Iva, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(VisualizzaAziende)
+                            .addComponent(InserisciAzienda)
+                            .addComponent(VisualizzaContrattiAzienda))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         OperazioniAziendeLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextField13, jTextField14, jTextField15, jTextField16});
@@ -620,7 +669,13 @@ public class View extends javax.swing.JFrame {
                     .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(InserisciAzienda)
-                .addContainerGap(366, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Partita_ivaStoricoContratti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(VisualizzaContrattiAzienda)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         TabellaAziendePanel.setPreferredSize(new java.awt.Dimension(1066, 542));
@@ -1442,6 +1497,30 @@ public class View extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_VisualizzaContrattiPrivatoActionPerformed
 
+    private void jTextField25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField25ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField25ActionPerformed
+
+    private void Partita_ivaStoricoContrattiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Partita_ivaStoricoContrattiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Partita_ivaStoricoContrattiActionPerformed
+
+    private void VisualizzaContrattiAziendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaContrattiAziendaActionPerformed
+        if(this.Partita_ivaStoricoContratti.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String partita_iva = this.Partita_ivaStoricoContratti.getText();
+        List<String> info = this.logic.getContrattiAzienda(partita_iva);
+        if(info.size()>0){
+            ((javax.swing.table.DefaultTableModel) this.TabellaAziende1.getModel()).setRowCount(0);
+            this.loadContrattiAzienda(info);
+            this.repaint();
+        } else {
+            JOptionPane.showMessageDialog(this, "Nessun contratto per l'azienda selezionata", "lettura", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_VisualizzaContrattiAziendaActionPerformed
+
     public void initLook() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1503,6 +1582,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JPanel OperazioniAziende;
     private javax.swing.JPanel OperazioniAziende1;
     private javax.swing.JPanel OperazioniPrivati;
+    private javax.swing.JTextField Partita_ivaStoricoContratti;
     private javax.swing.JPanel Privati;
     private javax.swing.JTextField StatoAuto;
     private javax.swing.JTextField StatoTarga;
@@ -1522,6 +1602,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton VisualizzaAuto;
     private javax.swing.JButton VisualizzaAutoDisponibili;
     private javax.swing.JButton VisualizzaAziende;
+    private javax.swing.JButton VisualizzaContrattiAzienda;
     private javax.swing.JButton VisualizzaContrattiPrivato;
     private javax.swing.JButton VisualizzaDipendenti;
     private javax.swing.JButton VisualizzaModelli;
@@ -1548,6 +1629,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField22;
     private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTextField24;
+    private javax.swing.JTextField jTextField25;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
