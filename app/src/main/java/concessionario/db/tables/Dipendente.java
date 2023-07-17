@@ -6,12 +6,12 @@ public class Dipendente {
     private final String nome;
     private final String cognome;
     private final String codice_fiscale;
-    private final int numero_di_telefono;
+    private final long numero_di_telefono;
     private final int numero_di_contratti;
     private final int stipendio;
     private final Date data_di_assunzione;
     
-    public Dipendente(String nome, String cognome, String codice_fiscale, int numero_di_telefono,
+    public Dipendente(String nome, String cognome, String codice_fiscale, long numero_di_telefono,
             int numero_di_contratti, int stipendio, Date data_di_assunzione) {
         this.nome = nome;
         this.cognome = cognome;
@@ -34,7 +34,7 @@ public class Dipendente {
         return codice_fiscale;
     }
 
-    public int getNumero_di_telefono() {
+    public long getNumero_di_telefono() {
         return numero_di_telefono;
     }
 

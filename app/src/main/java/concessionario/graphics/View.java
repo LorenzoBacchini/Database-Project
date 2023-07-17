@@ -5,7 +5,9 @@
 package concessionario.graphics;
 
 import concessionario.model.Logic;
+import concessionario.utils.Pair;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +18,7 @@ import javax.swing.JTextField;
 
 import concessionario.db.tables.Auto;
 import concessionario.db.tables.Azienda;
+import concessionario.db.tables.Dipendente;
 import concessionario.db.tables.Modello;
 import concessionario.db.tables.Privato;
 
@@ -27,7 +30,8 @@ public class View extends javax.swing.JFrame {
     private final Logic logic;
     private Map<String, JTextField> insertAutoFields = new HashMap<>();
     private Map<String, JTextField> insertPrivatiFields = new HashMap<>();
-    private Map<String, JTextField> insertAziendeFields = new HashMap<>(); 
+    private Map<String, JTextField> insertAziendeFields = new HashMap<>();
+    private Map<String, JTextField> insertDipendentiFields = new HashMap<>();
     /**
      * Creates new form View
      */
@@ -157,6 +161,23 @@ public class View extends javax.swing.JFrame {
         }
     }
 
+    private void loadContrattiPrivato(List<String> info){
+        String[] colName = new String[6];
+        colName[0] = "Numero di contratto";
+        colName[1] = "Codice fiscale privato";
+        colName[2] = "Codice fiscale dipendente";
+        colName[3] = "Targa";
+        colName[4] = "Marca";
+        colName[5] = "Modello";
+        ((javax.swing.table.DefaultTableModel) this.TabellaPrivati1.getModel()).setColumnIdentifiers(colName);
+        Iterator<String> infoIterator = info.iterator();
+        while(infoIterator.hasNext()){
+            final String[] row = {infoIterator.next(), infoIterator.next(), infoIterator.next(), infoIterator.next(), infoIterator.next(),
+                    infoIterator.next()};
+            ((javax.swing.table.DefaultTableModel) this.TabellaPrivati1.getModel()).addRow(row);
+        }
+    }
+
     private void loadAziende(){
         String[] colName = new String[4];
         colName[0] = "Partita_iva";
@@ -167,6 +188,23 @@ public class View extends javax.swing.JFrame {
         for (Azienda a : this.logic.getAziende()) {
             final String[] row = {String.valueOf(a.getPartita_iva()), a.getNome(), a.getSede(), String.valueOf(a.getFatturato())};
             ((javax.swing.table.DefaultTableModel) this.TabellaAziende1.getModel()).addRow(row);
+        }
+    }
+
+    private void loadDipendenti(){
+        String[] colName = new String[7];
+        colName[0] = "Nome";
+        colName[1] = "Cognome";
+        colName[2] = "Codice fiscale";
+        colName[3] = "Numero di telefono";
+        colName[4] = "Numero di contratti";
+        colName[5] = "Stipendio";
+        colName[6] = "Data di assunzione";
+        ((javax.swing.table.DefaultTableModel) this.TabellaDipendenti1.getModel()).setColumnIdentifiers(colName);
+        for (Dipendente d : this.logic.getDipendenti()) {
+            final String[] row = {d.getNome(), d.getCognome(), d.getCodice_fiscale(), String.valueOf(d.getNumero_di_telefono()),
+                    String.valueOf(d.getNumero_di_contratti()), String.valueOf(d.getStipendio()), String.valueOf(d.getData_di_assunzione())};
+            ((javax.swing.table.DefaultTableModel) this.TabellaDipendenti1.getModel()).addRow(row);
         }
     }
 
@@ -193,6 +231,12 @@ public class View extends javax.swing.JFrame {
         this.insertAziendeFields.put("sede", this.InserisciSede);
         this.insertAziendeFields.put("fatturato", this.InserisciFatturato);
 
+        this.insertDipendentiFields.put("nome", this.InserisciNomeDipendente);
+        this.insertDipendentiFields.put("cognome", this.InserisciCognomeDipendente);
+        this.insertDipendentiFields.put("codice_fiscale", this.InserisciCodice_fiscaleDipendente);
+        this.insertDipendentiFields.put("numero_di_telefono", this.InserisciNumero_di_telefonoDipendente);
+        this.insertDipendentiFields.put("stipendio", this.InserisciStipendio);
+        this.insertDipendentiFields.put("data_di_assunzione", this.InserisciData_di_assunzione);
     }
 
     /**
@@ -219,6 +263,9 @@ public class View extends javax.swing.JFrame {
         jTextField12 = new javax.swing.JTextField();
         InserisciE_mail = new javax.swing.JTextField();
         InserisciPrivato = new javax.swing.JButton();
+        jTextField24 = new javax.swing.JTextField();
+        Codice_fiscaleStoricoContratti = new javax.swing.JTextField();
+        VisualizzaContrattiPrivato = new javax.swing.JButton();
         TabellaPrivatiPanel = new javax.swing.JPanel();
         TabellaPrivati = new javax.swing.JScrollPane();
         TabellaPrivati1 = new javax.swing.JTable();
@@ -238,6 +285,27 @@ public class View extends javax.swing.JFrame {
         TabellaAziende = new javax.swing.JScrollPane();
         TabellaAziende1 = new javax.swing.JTable();
         Dipendenti = new javax.swing.JPanel();
+        OperazioniAziende1 = new javax.swing.JPanel();
+        VisualizzaDipendenti = new javax.swing.JButton();
+        jTextField17 = new javax.swing.JTextField();
+        InserisciNomeDipendente = new javax.swing.JTextField();
+        jTextField18 = new javax.swing.JTextField();
+        InserisciCognomeDipendente = new javax.swing.JTextField();
+        InserisciCodice_fiscaleDipendente = new javax.swing.JTextField();
+        jTextField19 = new javax.swing.JTextField();
+        InserisciNumero_di_telefonoDipendente = new javax.swing.JTextField();
+        jTextField20 = new javax.swing.JTextField();
+        InserisciDipendente = new javax.swing.JButton();
+        jTextField22 = new javax.swing.JTextField();
+        jTextField23 = new javax.swing.JTextField();
+        InserisciData_di_assunzione = new javax.swing.JTextField();
+        InserisciStipendio = new javax.swing.JTextField();
+        jTextField21 = new javax.swing.JTextField();
+        Codice_fiscaleNumeroDiContratti = new javax.swing.JTextField();
+        VisualizzaNumeroContratti = new javax.swing.JButton();
+        TabellaDipendentiPanel = new javax.swing.JPanel();
+        TabellaDipendenti = new javax.swing.JScrollPane();
+        TabellaDipendenti1 = new javax.swing.JTable();
         Auto = new javax.swing.JPanel();
         OperazioniAuto = new javax.swing.JPanel();
         VisualizzaAuto = new javax.swing.JButton();
@@ -329,6 +397,27 @@ public class View extends javax.swing.JFrame {
             }
         });
 
+        jTextField24.setEditable(false);
+        jTextField24.setText("Codice fiscale");
+        jTextField24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField24ActionPerformed(evt);
+            }
+        });
+
+        Codice_fiscaleStoricoContratti.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Codice_fiscaleStoricoContrattiActionPerformed(evt);
+            }
+        });
+
+        VisualizzaContrattiPrivato.setText("Visualizza contratti");
+        VisualizzaContrattiPrivato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VisualizzaContrattiPrivatoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout OperazioniPrivatiLayout = new javax.swing.GroupLayout(OperazioniPrivati);
         OperazioniPrivati.setLayout(OperazioniPrivatiLayout);
         OperazioniPrivatiLayout.setHorizontalGroup(
@@ -336,23 +425,31 @@ public class View extends javax.swing.JFrame {
             .addGroup(OperazioniPrivatiLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(VisualizzaPrivati)
-                    .addComponent(InserisciPrivato)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OperazioniPrivatiLayout.createSequentialGroup()
+                        .addComponent(jTextField24)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Codice_fiscaleStoricoContratti, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(OperazioniPrivatiLayout.createSequentialGroup()
                         .addGroup(OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(InserisciNumero_di_telefono, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(InserisciCodice_fiscale, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(InserisciCognome, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(InserisciE_mail, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(InserisciNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(VisualizzaPrivati)
+                            .addComponent(InserisciPrivato)
+                            .addGroup(OperazioniPrivatiLayout.createSequentialGroup()
+                                .addGroup(OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(InserisciNumero_di_telefono, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(InserisciCodice_fiscale, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(InserisciCognome, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(InserisciE_mail, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(InserisciNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(VisualizzaContrattiPrivato))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         OperazioniPrivatiLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextField10, jTextField11, jTextField12, jTextField8, jTextField9});
@@ -384,6 +481,12 @@ public class View extends javax.swing.JFrame {
                     .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(InserisciPrivato)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Codice_fiscaleStoricoContratti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(VisualizzaContrattiPrivato)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -428,6 +531,8 @@ public class View extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Privati", Privati);
+
+        OperazioniAziende.setPreferredSize(new java.awt.Dimension(210, 210));
 
         VisualizzaAziende.setText("Visualizza aziende");
         VisualizzaAziende.addActionListener(new java.awt.event.ActionListener() {
@@ -475,23 +580,23 @@ public class View extends javax.swing.JFrame {
                 .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(OperazioniAziendeLayout.createSequentialGroup()
                         .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                            .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(InserisciFatturato, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(InserisciSede, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(InserisciNomeAzienda, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(InserisciPartita_Iva, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(OperazioniAziendeLayout.createSequentialGroup()
-                        .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(VisualizzaAziende)
-                            .addComponent(InserisciAzienda))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(VisualizzaAziende)
+                    .addComponent(InserisciAzienda))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        OperazioniAziendeLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextField13, jTextField14, jTextField15, jTextField16});
+
         OperazioniAziendeLayout.setVerticalGroup(
             OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(OperazioniAziendeLayout.createSequentialGroup()
@@ -518,6 +623,8 @@ public class View extends javax.swing.JFrame {
                 .addContainerGap(366, Short.MAX_VALUE))
         );
 
+        TabellaAziendePanel.setPreferredSize(new java.awt.Dimension(1066, 542));
+
         TabellaAziende1.setAutoCreateRowSorter(true);
         TabellaAziende1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         TabellaAziende1.setEnabled(false);
@@ -529,7 +636,7 @@ public class View extends javax.swing.JFrame {
             TabellaAziendePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TabellaAziendePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(TabellaAziende, javax.swing.GroupLayout.DEFAULT_SIZE, 1078, Short.MAX_VALUE)
+                .addComponent(TabellaAziende, javax.swing.GroupLayout.DEFAULT_SIZE, 1048, Short.MAX_VALUE)
                 .addContainerGap())
         );
         TabellaAziendePanelLayout.setVerticalGroup(
@@ -544,9 +651,9 @@ public class View extends javax.swing.JFrame {
             .addGroup(AziendeLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(OperazioniAziende, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TabellaAziendePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(TabellaAziendePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1060, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12))
         );
         AziendeLayout.setVerticalGroup(
             AziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -554,21 +661,233 @@ public class View extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(AziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(TabellaAziendePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(OperazioniAziende, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(OperazioniAziende, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab("Aziende", Aziende);
 
+        OperazioniAziende1.setPreferredSize(new java.awt.Dimension(210, 210));
+
+        VisualizzaDipendenti.setText("Visualizza dipendenti");
+        VisualizzaDipendenti.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VisualizzaDipendentiActionPerformed(evt);
+            }
+        });
+
+        jTextField17.setEditable(false);
+        jTextField17.setText("Nome");
+        jTextField17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField17ActionPerformed(evt);
+            }
+        });
+
+        InserisciNomeDipendente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserisciNomeDipendenteActionPerformed(evt);
+            }
+        });
+
+        jTextField18.setEditable(false);
+        jTextField18.setText("Cognome");
+        jTextField18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField18ActionPerformed(evt);
+            }
+        });
+
+        InserisciCognomeDipendente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserisciCognomeDipendenteActionPerformed(evt);
+            }
+        });
+
+        jTextField19.setEditable(false);
+        jTextField19.setText("Codice fiscale");
+
+        jTextField20.setEditable(false);
+        jTextField20.setText("Numero di telefono");
+        jTextField20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField20ActionPerformed(evt);
+            }
+        });
+
+        InserisciDipendente.setText("Inserisci dipendente");
+        InserisciDipendente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserisciDipendenteActionPerformed(evt);
+            }
+        });
+
+        jTextField22.setEditable(false);
+        jTextField22.setText("Stipendio");
+
+        jTextField23.setEditable(false);
+        jTextField23.setText("Data di assunzione");
+
+        InserisciData_di_assunzione.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        InserisciData_di_assunzione.setText("YYYY-MM-DD");
+        InserisciData_di_assunzione.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                InserisciData_di_assunzioneFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                InserisciData_di_assunzioneFocusLost(evt);
+            }
+        });
+
+        jTextField21.setEditable(false);
+        jTextField21.setText("Codice fiscale");
+        jTextField21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField21ActionPerformed(evt);
+            }
+        });
+
+        Codice_fiscaleNumeroDiContratti.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Codice_fiscaleNumeroDiContrattiActionPerformed(evt);
+            }
+        });
+
+        VisualizzaNumeroContratti.setText("Visualizza numero contratti");
+        VisualizzaNumeroContratti.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VisualizzaNumeroContrattiActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout OperazioniAziende1Layout = new javax.swing.GroupLayout(OperazioniAziende1);
+        OperazioniAziende1.setLayout(OperazioniAziende1Layout);
+        OperazioniAziende1Layout.setHorizontalGroup(
+            OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OperazioniAziende1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(OperazioniAziende1Layout.createSequentialGroup()
+                        .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTextField22)
+                            .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(InserisciStipendio, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                            .addComponent(InserisciData_di_assunzione, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OperazioniAziende1Layout.createSequentialGroup()
+                        .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTextField19, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField18, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField17, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField20))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(InserisciCodice_fiscaleDipendente, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(InserisciCognomeDipendente, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(InserisciNumero_di_telefonoDipendente)
+                            .addComponent(InserisciNomeDipendente)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OperazioniAziende1Layout.createSequentialGroup()
+                        .addComponent(jTextField21)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Codice_fiscaleNumeroDiContratti, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(OperazioniAziende1Layout.createSequentialGroup()
+                        .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(VisualizzaDipendenti)
+                            .addComponent(InserisciDipendente)
+                            .addComponent(VisualizzaNumeroContratti))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        OperazioniAziende1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextField17, jTextField18, jTextField19, jTextField20, jTextField22, jTextField23});
+
+        OperazioniAziende1Layout.setVerticalGroup(
+            OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OperazioniAziende1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(VisualizzaDipendenti)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(OperazioniAziende1Layout.createSequentialGroup()
+                        .addComponent(InserisciNomeDipendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(InserisciCognomeDipendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(InserisciCodice_fiscaleDipendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(InserisciNumero_di_telefonoDipendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(OperazioniAziende1Layout.createSequentialGroup()
+                        .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(OperazioniAziende1Layout.createSequentialGroup()
+                        .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(OperazioniAziende1Layout.createSequentialGroup()
+                        .addComponent(InserisciStipendio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(InserisciData_di_assunzione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(InserisciDipendente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Codice_fiscaleNumeroDiContratti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(VisualizzaNumeroContratti)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        OperazioniAziende1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jTextField17, jTextField18, jTextField19, jTextField20, jTextField22, jTextField23});
+
+        TabellaDipendentiPanel.setPreferredSize(new java.awt.Dimension(1066, 542));
+
+        TabellaDipendenti1.setAutoCreateRowSorter(true);
+        TabellaDipendenti1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        TabellaDipendenti1.setEnabled(false);
+        TabellaDipendenti.setViewportView(TabellaDipendenti1);
+
+        javax.swing.GroupLayout TabellaDipendentiPanelLayout = new javax.swing.GroupLayout(TabellaDipendentiPanel);
+        TabellaDipendentiPanel.setLayout(TabellaDipendentiPanelLayout);
+        TabellaDipendentiPanelLayout.setHorizontalGroup(
+            TabellaDipendentiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TabellaDipendentiPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(TabellaDipendenti, javax.swing.GroupLayout.DEFAULT_SIZE, 1048, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        TabellaDipendentiPanelLayout.setVerticalGroup(
+            TabellaDipendentiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(TabellaDipendenti, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout DipendentiLayout = new javax.swing.GroupLayout(Dipendenti);
         Dipendenti.setLayout(DipendentiLayout);
         DipendentiLayout.setHorizontalGroup(
             DipendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1300, Short.MAX_VALUE)
+            .addGroup(DipendentiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(OperazioniAziende1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(TabellaDipendentiPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1060, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12))
         );
         DipendentiLayout.setVerticalGroup(
             DipendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DipendentiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(DipendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(TabellaDipendentiPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(OperazioniAziende1, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Dipendenti", Dipendenti);
@@ -1016,6 +1335,113 @@ public class View extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_InserisciAziendaActionPerformed
 
+    private void VisualizzaDipendentiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaDipendentiActionPerformed
+        ((javax.swing.table.DefaultTableModel) this.TabellaDipendenti1.getModel()).setRowCount(0);
+        this.loadDipendenti();
+        this.repaint();
+    }//GEN-LAST:event_VisualizzaDipendentiActionPerformed
+
+    private void jTextField17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField17ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField17ActionPerformed
+
+    private void InserisciCognomeDipendenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciCognomeDipendenteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InserisciCognomeDipendenteActionPerformed
+
+    private void InserisciDipendenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciDipendenteActionPerformed
+        for (JTextField field : this.insertDipendentiFields.values()) {
+            if(field.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+        String nome = this.insertDipendentiFields.get("nome").getText();
+        String cognome = this.insertDipendentiFields.get("cognome").getText();
+        String codice_fiscale = this.insertDipendentiFields.get("codice_fiscale").getText();
+        long numero_di_telefono = Long.parseLong(this.insertDipendentiFields.get("numero_di_telefono").getText());
+        int stipendio = Integer.parseInt((this.insertDipendentiFields.get("stipendio").getText()));
+        Date data_di_assunzione = Date.valueOf(this.insertDipendentiFields.get("data_di_assunzione").getText());
+        if(this.logic.insertDipendenti(nome, cognome, codice_fiscale, numero_di_telefono, stipendio, data_di_assunzione)){
+            JOptionPane.showMessageDialog(this, "Dipendente inserito correttamente", "Inserimento", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Dipendente non inserito", "Inserimento", JOptionPane.ERROR_MESSAGE);
+        }
+        for (JTextField field : this.insertDipendentiFields.values()) {
+            field.setText("");
+        }
+    }//GEN-LAST:event_InserisciDipendenteActionPerformed
+
+    private void jTextField20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField20ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField20ActionPerformed
+
+    private void jTextField18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField18ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField18ActionPerformed
+
+    private void InserisciNomeDipendenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciNomeDipendenteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InserisciNomeDipendenteActionPerformed
+
+    private void InserisciData_di_assunzioneFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_InserisciData_di_assunzioneFocusGained
+        if(InserisciData_di_assunzione.getText().equals("YYYY-MM-DD")){
+            InserisciData_di_assunzione.setText("");
+        }
+    }//GEN-LAST:event_InserisciData_di_assunzioneFocusGained
+
+    private void InserisciData_di_assunzioneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_InserisciData_di_assunzioneFocusLost
+        if(InserisciData_di_assunzione.getText().equals("")){
+            InserisciData_di_assunzione.setText("YYYY-MM-DD");
+        }
+    }//GEN-LAST:event_InserisciData_di_assunzioneFocusLost
+
+    private void jTextField21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField21ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField21ActionPerformed
+
+    private void Codice_fiscaleNumeroDiContrattiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Codice_fiscaleNumeroDiContrattiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Codice_fiscaleNumeroDiContrattiActionPerformed
+
+    private void VisualizzaNumeroContrattiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaNumeroContrattiActionPerformed
+        if(this.Codice_fiscaleNumeroDiContratti.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String codice_fiscale = this.Codice_fiscaleNumeroDiContratti.getText();
+        Pair<Boolean, String> info = this.logic.getNumeroContrattiDipendente(codice_fiscale);
+        if(info.getX()){
+            this.Codice_fiscaleNumeroDiContratti.setText(info.getY());
+        } else {
+            JOptionPane.showMessageDialog(this, "Dipendente non trovato", "lettura", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_VisualizzaNumeroContrattiActionPerformed
+
+    private void jTextField24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField24ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField24ActionPerformed
+
+    private void Codice_fiscaleStoricoContrattiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Codice_fiscaleStoricoContrattiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Codice_fiscaleStoricoContrattiActionPerformed
+
+    private void VisualizzaContrattiPrivatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaContrattiPrivatoActionPerformed
+        if(this.Codice_fiscaleStoricoContratti.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String codice_fiscale = this.Codice_fiscaleStoricoContratti.getText();
+        List<String> info = this.logic.getContrattiPrivato(codice_fiscale);
+        if(info.size()>0){
+            ((javax.swing.table.DefaultTableModel) this.TabellaPrivati1.getModel()).setRowCount(0);
+            this.loadContrattiPrivato(info);
+            this.repaint();
+        } else {
+            JOptionPane.showMessageDialog(this, "Nessun contratto per il privato selezionato", "lettura", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_VisualizzaContrattiPrivatoActionPerformed
+
     public void initLook() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1045,27 +1471,37 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JPanel Auto;
     private javax.swing.JButton AutoPiuRichiesta;
     private javax.swing.JPanel Aziende;
+    private javax.swing.JTextField Codice_fiscaleNumeroDiContratti;
+    private javax.swing.JTextField Codice_fiscaleStoricoContratti;
     private javax.swing.JPanel Contratti;
     private javax.swing.JPanel Dipendenti;
     private javax.swing.JTextField InserisciAnno_di_immatricolazioe;
     private javax.swing.JButton InserisciAuto;
     private javax.swing.JButton InserisciAzienda;
     private javax.swing.JTextField InserisciCodice_fiscale;
+    private javax.swing.JTextField InserisciCodice_fiscaleDipendente;
     private javax.swing.JTextField InserisciCognome;
+    private javax.swing.JTextField InserisciCognomeDipendente;
+    private javax.swing.JTextField InserisciData_di_assunzione;
+    private javax.swing.JButton InserisciDipendente;
     private javax.swing.JTextField InserisciE_mail;
     private javax.swing.JTextField InserisciFatturato;
     private javax.swing.JTextField InserisciMarca;
     private javax.swing.JTextField InserisciModello;
     private javax.swing.JTextField InserisciNome;
     private javax.swing.JTextField InserisciNomeAzienda;
+    private javax.swing.JTextField InserisciNomeDipendente;
     private javax.swing.JTextField InserisciNumero_di_telaio;
     private javax.swing.JTextField InserisciNumero_di_telefono;
+    private javax.swing.JTextField InserisciNumero_di_telefonoDipendente;
     private javax.swing.JTextField InserisciPartita_Iva;
     private javax.swing.JButton InserisciPrivato;
     private javax.swing.JTextField InserisciSede;
+    private javax.swing.JTextField InserisciStipendio;
     private javax.swing.JTextField InserisciTarga;
     private javax.swing.JPanel OperazioniAuto;
     private javax.swing.JPanel OperazioniAziende;
+    private javax.swing.JPanel OperazioniAziende1;
     private javax.swing.JPanel OperazioniPrivati;
     private javax.swing.JPanel Privati;
     private javax.swing.JTextField StatoAuto;
@@ -1077,13 +1513,19 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JScrollPane TabellaAziende;
     private javax.swing.JTable TabellaAziende1;
     private javax.swing.JPanel TabellaAziendePanel;
+    private javax.swing.JScrollPane TabellaDipendenti;
+    private javax.swing.JTable TabellaDipendenti1;
+    private javax.swing.JPanel TabellaDipendentiPanel;
     private javax.swing.JScrollPane TabellaPrivati;
     private javax.swing.JTable TabellaPrivati1;
     private javax.swing.JPanel TabellaPrivatiPanel;
     private javax.swing.JButton VisualizzaAuto;
     private javax.swing.JButton VisualizzaAutoDisponibili;
     private javax.swing.JButton VisualizzaAziende;
+    private javax.swing.JButton VisualizzaContrattiPrivato;
+    private javax.swing.JButton VisualizzaDipendenti;
     private javax.swing.JButton VisualizzaModelli;
+    private javax.swing.JButton VisualizzaNumeroContratti;
     private javax.swing.JButton VisualizzaPrivati;
     private javax.swing.JButton VisualizzaStatoAuto;
     private javax.swing.JButton VisualizzaStoricoAzienda;
@@ -1097,7 +1539,15 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField14;
     private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField16;
+    private javax.swing.JTextField jTextField17;
+    private javax.swing.JTextField jTextField18;
+    private javax.swing.JTextField jTextField19;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField20;
+    private javax.swing.JTextField jTextField21;
+    private javax.swing.JTextField jTextField22;
+    private javax.swing.JTextField jTextField23;
+    private javax.swing.JTextField jTextField24;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;

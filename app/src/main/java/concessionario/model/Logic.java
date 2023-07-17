@@ -18,6 +18,7 @@ import concessionario.db.tables.Contratto;
 import concessionario.db.tables.Dipendente;
 import concessionario.db.tables.Modello;
 import concessionario.db.tables.Privato;
+import concessionario.utils.Pair;
 
 public class Logic {
     final private Connection connection;
@@ -238,6 +239,29 @@ public class Logic {
         }
     }
 
+    public List<String> getContrattiPrivato(final String codice_fiscale){
+        final String query = "SELECT c.*, a.Marca, a.Modello"+
+        " FROM contratto c, auto a"+
+        " WHERE c.Auto = a.Targa"+
+        " AND c.Privato = ?;";
+        try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setString(1, codice_fiscale);
+            final ResultSet result = statement.executeQuery();
+            final List<String> info = new ArrayList<>();
+            while (result.next()) {
+                info.add(result.getString("Numero_di_contratto"));
+                info.add(result.getString("Privato"));
+                info.add(result.getString("Dipendente"));
+                info.add(result.getString("Auto"));
+                info.add(result.getString("Marca"));
+                info.add(result.getString("Modello"));
+            }
+            return info;
+        } catch (final SQLException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
     public boolean insertPrivati(final String nome, final String cognome, final String codice_fiscale, 
         final long numero_di_telefono, final String e_mail){
         final String query = "INSERT INTO privato (Nome, Cognome, Codice_fiscale, Numero_di_telefono, E_mail)"+
@@ -308,6 +332,63 @@ public class Logic {
                 azienda.add(a);
             }
             return azienda;
+        } catch (final SQLException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public Pair<Boolean, String> getNumeroContrattiDipendente(final String codice_fiscale){
+        final String query = "SELECT d.Numero_di_contratti"+
+            " FROM dipendente d"+
+            " WHERE d.Codice_fiscale = ?;";
+        try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setString(1, codice_fiscale);
+            ResultSet result = statement.executeQuery();
+            result.next();
+            return new Pair<Boolean,String>(true, result.getString("Numero_di_contratti"));
+        } catch (final SQLException e) {
+            return new Pair<Boolean,String>(false, null);
+        }
+    }
+
+    public boolean insertDipendenti(final String nome, final String cognome, final String codice_fiscale,
+        final long numero_di_telefono, final int stipendio, final Date data_di_assunzione){
+        final String query = "INSERT INTO dipendente (Nome, Cognome, Codice_fiscale, Numero_di_telefono, Stipendio, Data_di_assunzione)"+
+            "VALUES (?, ?, ?, ?, ?, ?);";
+        try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setString(1, nome);
+            statement.setString(2, cognome);
+            statement.setString(3, codice_fiscale);
+            statement.setLong(4, numero_di_telefono);
+            statement.setInt(5, stipendio);
+            statement.setDate(6, data_di_assunzione);
+            statement.executeUpdate();
+            return true;
+        } catch (final SQLException e) {
+            return false;
+        }
+    }
+
+    public List<Dipendente> getDipendenti(){
+        final String query = "SELECT * FROM dipendente;";
+
+        try (final Statement statement = this.connection.createStatement()) {
+            final ResultSet result = statement.executeQuery(query);
+            final List<Dipendente> dipendente = new ArrayList<>();
+            while (result.next()) {
+                final String nome = result.getString("Nome");
+                final String cognome = result.getString("Cognome");
+                final String codice_fiscale = result.getString("Codice_fiscale");
+                final long numero_di_telefono = result.getLong("Numero_di_telefono");
+                final int numero_di_contratti = result.getInt("Numero_di_contratti");
+                final int stipendio = result.getInt("Stipendio");
+                final Date data_di_assunzione = result.getDate("Data_di_assunzione");
+                
+                final Dipendente d = new Dipendente(nome, cognome, codice_fiscale, numero_di_telefono, numero_di_contratti,
+                    stipendio, data_di_assunzione);
+                dipendente.add(d);
+            }
+            return dipendente;
         } catch (final SQLException e) {
             throw new IllegalStateException(e);
         }
