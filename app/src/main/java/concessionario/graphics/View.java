@@ -2120,9 +2120,9 @@ public class View extends javax.swing.JFrame {
         String targa = this.insertNoleggioAzienda.get("targa").getText();
         Date data_di_fine_noleggio = Date.valueOf(this.insertNoleggioAzienda.get("data_di_fine_noleggio").getText());
         if(this.logic.insertNoleggioAzienda(partita_iva, codice_fiscaleDipendente, targa, data_di_fine_noleggio)){
-            JOptionPane.showMessageDialog(this, "Noleggio privato inserito correttamente", "Inserimento", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Noleggio azienda inserito correttamente", "Inserimento", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this, "Noleggio privato non inserito", "Inserimento", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Noleggio azienda non inserito", "Inserimento", JOptionPane.ERROR_MESSAGE);
         }
         for (JTextField field : this.insertNoleggioAzienda.values()) {
             field.setText("");
