@@ -4,17 +4,17 @@ import java.util.Optional;
 
 public class Contratto {
     private final int numero_di_contratto;
-    private final Optional<Integer> azienda;
-    private final Optional<String> privatoString;
+    private final Optional<Long> azienda;
+    private final Optional<String> privato;
     private final String dipendente;
     private final Optional<Integer> sconto;
     private final String auto;
 
-    public Contratto(int numero_di_contratto, Optional<Integer> azienda, Optional<String> privatoString,
+    public Contratto(int numero_di_contratto, Optional<Long> azienda, Optional<String> privato,
             String dipendente, Optional<Integer> sconto, String auto) {
         this.numero_di_contratto = numero_di_contratto;
         this.azienda = azienda;
-        this.privatoString = privatoString;
+        this.privato = privato;
         this.dipendente = dipendente;
         this.sconto = sconto;
         this.auto = auto;
@@ -24,12 +24,12 @@ public class Contratto {
         return numero_di_contratto;
     }
 
-    public Optional<Integer> getAzienda() {
+    public Optional<Long> getAzienda() {
         return azienda;
     }
 
-    public Optional<String> getPrivatoString() {
-        return privatoString;
+    public Optional<String> getPrivato() {
+        return privato;
     }
 
     public String getDipendente() {

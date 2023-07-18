@@ -8,6 +8,7 @@ import concessionario.model.Logic;
 import concessionario.utils.Pair;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +33,10 @@ public class View extends javax.swing.JFrame {
     private Map<String, JTextField> insertPrivatiFields = new HashMap<>();
     private Map<String, JTextField> insertAziendeFields = new HashMap<>();
     private Map<String, JTextField> insertDipendentiFields = new HashMap<>();
+    private Map<String, JTextField> insertVenditaPrivato = new HashMap<>();
+    private Map<String, JTextField> insertNoleggioPrivato = new HashMap<>();
+    private Map<String, JTextField> insertVenditaAzienda = new HashMap<>();
+    private Map<String, JTextField> insertNoleggioAzienda= new HashMap<>();
     /**
      * Creates new form View
      */
@@ -142,7 +147,7 @@ public class View extends javax.swing.JFrame {
         ((javax.swing.table.DefaultTableModel) this.TabellaAuto1.getModel()).setColumnIdentifiers(colName);
         for (Auto a : this.logic.getAuto()) {
             final String[] row = {a.getTarga(), String.valueOf(a.getAnno_di_immatricolazione()), a.getNumero_di_telaio(), a.getMarca(),
-                    a.getModello(), String.valueOf(a.isVenduta()), a.getData_di_fine_noleggio().isPresent() ? String.valueOf(a.getData_di_fine_noleggio()) : null};
+                    a.getModello(), String.valueOf(a.isVenduta()), a.getData_di_fine_noleggio().isPresent() ? String.valueOf(a.getData_di_fine_noleggio().get()) : null};
             ((javax.swing.table.DefaultTableModel) this.TabellaAuto1.getModel()).addRow(row);
         }
     }
@@ -178,6 +183,26 @@ public class View extends javax.swing.JFrame {
         }
     }
 
+    private void loadCostoContrattoPrivato(final List<String> info){
+        String[] colName = new String[9];
+        colName[0] = "Nome privato";
+        colName[1] = "Cognome privato";
+        colName[2] = "Codice fiscale privato";
+        colName[3] = "Targa";
+        colName[4] = "Marca";
+        colName[5] = "Modello";
+        colName[6] = "Prezzo vendita";
+        colName[7] = "Prezzo noleggio";
+        colName[8] = "Costo contratto";
+        ((javax.swing.table.DefaultTableModel) this.TabellaPrivati1.getModel()).setColumnIdentifiers(colName);
+        Iterator<String> infoIterator = info.iterator();
+        while(infoIterator.hasNext()){
+            final String[] row = {infoIterator.next(), infoIterator.next(), infoIterator.next(), infoIterator.next(), infoIterator.next(),
+                    infoIterator.next(), infoIterator.next(), infoIterator.next(), infoIterator.next()};
+            ((javax.swing.table.DefaultTableModel) this.TabellaPrivati1.getModel()).addRow(row);
+        }
+    }
+
     private void loadAziende(){
         String[] colName = new String[4];
         colName[0] = "Partita_iva";
@@ -208,6 +233,26 @@ public class View extends javax.swing.JFrame {
         }
     }
 
+    private void loadCostoContrattoAzienda(List<String> info){
+        String[] colName = new String[9];
+        colName[0] = "Nome azienda";
+        colName[1] = "Sede privato";
+        colName[2] = "Partita iva azienda";
+        colName[3] = "Targa";
+        colName[4] = "Marca";
+        colName[5] = "Modello";
+        colName[6] = "Prezzo vendita";
+        colName[7] = "Prezzo noleggio";
+        colName[8] = "Costo contratto";
+        ((javax.swing.table.DefaultTableModel) this.TabellaAziende1.getModel()).setColumnIdentifiers(colName);
+        Iterator<String> infoIterator = info.iterator();
+        while(infoIterator.hasNext()){
+            final String[] row = {infoIterator.next(), infoIterator.next(), infoIterator.next(), infoIterator.next(), infoIterator.next(),
+                    infoIterator.next(), infoIterator.next(), infoIterator.next(), infoIterator.next()};
+            ((javax.swing.table.DefaultTableModel) this.TabellaAziende1.getModel()).addRow(row);
+        }
+    }
+
     private void loadDipendenti(){
         String[] colName = new String[7];
         colName[0] = "Nome";
@@ -225,6 +270,26 @@ public class View extends javax.swing.JFrame {
         }
     }
 
+    private void loadContratti(){
+        String[] colName = new String[9];
+        colName[0] = "Numero di contratto";
+        colName[1] = "Partita iva azienda";
+        colName[2] = "Codice fiscale privato";
+        colName[3] = "Codice fiscale dipendente";
+        colName[4] = "Sconto";
+        colName[5] = "Targa auto";
+        colName[6] = "Data di vendita";
+        colName[7] = "Data di inizio noleggio";
+        colName[8] = "Data di fine noleggio";
+        ((javax.swing.table.DefaultTableModel) this.TabellaContratti1.getModel()).setColumnIdentifiers(colName);
+        List<String> info = this.logic.getContratti();
+        Iterator<String> infoIterator = info.iterator();
+        while(infoIterator.hasNext()){
+            final String[] row = {infoIterator.next(), infoIterator.next(), infoIterator.next(), infoIterator.next(), infoIterator.next(),
+                    infoIterator.next(), infoIterator.next(), infoIterator.next(), infoIterator.next()};
+            ((javax.swing.table.DefaultTableModel) this.TabellaContratti1.getModel()).addRow(row);
+        }
+    }
 
     /**
      * Method to inizialize the group of button and textField with the same
@@ -254,6 +319,24 @@ public class View extends javax.swing.JFrame {
         this.insertDipendentiFields.put("numero_di_telefono", this.InserisciNumero_di_telefonoDipendente);
         this.insertDipendentiFields.put("stipendio", this.InserisciStipendio);
         this.insertDipendentiFields.put("data_di_assunzione", this.InserisciData_di_assunzione);
+
+        this.insertVenditaPrivato.put("codice_fiscalePrivato", this.InserisciCodice_fiscaleContrattoPrivato);
+        this.insertVenditaPrivato.put("codice_fiscaleDipendente", this.InserisciCodice_fiscaleContrattoDipendente);
+        this.insertVenditaPrivato.put("targa", this.InserisciTargaContrattoPrivato);
+        
+        this.insertNoleggioPrivato.put("codice_fiscalePrivato", this.InserisciCodice_fiscaleContrattoPrivato);
+        this.insertNoleggioPrivato.put("codice_fiscaleDipendente", this.InserisciCodice_fiscaleContrattoDipendente);
+        this.insertNoleggioPrivato.put("targa", this.InserisciTargaContrattoPrivato);
+        this.insertNoleggioPrivato.put("data_di_fine_noleggio", this.InserisciData_di_fine_noleggioPrivato);
+
+        this.insertVenditaAzienda.put("partita_iva", this.InserisciPartita_ivaContratto);
+        this.insertVenditaAzienda.put("codice_fiscaleDipendente", this.InserisciCodice_fiscaleContrattoDipendenteAzienda);
+        this.insertVenditaAzienda.put("targa", this.InserisciTargaContrattoAzienda);
+        
+        this.insertNoleggioAzienda.put("partita_iva", this.InserisciPartita_ivaContratto);
+        this.insertNoleggioAzienda.put("codice_fiscaleDipendente", this.InserisciCodice_fiscaleContrattoDipendenteAzienda);
+        this.insertNoleggioAzienda.put("targa", this.InserisciTargaContrattoAzienda);
+        this.insertNoleggioAzienda.put("data_di_fine_noleggio", this.InserisciData_di_fine_noleggioAzienda);
     }
 
     /**
@@ -266,6 +349,31 @@ public class View extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         Contratti = new javax.swing.JPanel();
+        OperazioniContratti = new javax.swing.JPanel();
+        VisualizzaContratti = new javax.swing.JButton();
+        jTextField26 = new javax.swing.JTextField();
+        InserisciCodice_fiscaleContrattoPrivato = new javax.swing.JTextField();
+        jTextField27 = new javax.swing.JTextField();
+        InserisciCodice_fiscaleContrattoDipendente = new javax.swing.JTextField();
+        InserisciTargaContrattoPrivato = new javax.swing.JTextField();
+        jTextField28 = new javax.swing.JTextField();
+        InserisciVenditaPrivati = new javax.swing.JButton();
+        jTextField30 = new javax.swing.JTextField();
+        InserisciData_di_fine_noleggioPrivato = new javax.swing.JTextField();
+        InserisciNoleggioPrivato = new javax.swing.JButton();
+        jTextField31 = new javax.swing.JTextField();
+        InserisciPartita_ivaContratto = new javax.swing.JTextField();
+        InserisciCodice_fiscaleContrattoDipendenteAzienda = new javax.swing.JTextField();
+        jTextField32 = new javax.swing.JTextField();
+        jTextField33 = new javax.swing.JTextField();
+        InserisciTargaContrattoAzienda = new javax.swing.JTextField();
+        jTextField35 = new javax.swing.JTextField();
+        InserisciData_di_fine_noleggioAzienda = new javax.swing.JTextField();
+        InserisciVenditaAzienda = new javax.swing.JButton();
+        InserisciNoleggioAzienda = new javax.swing.JButton();
+        TabellaContrattiPanel = new javax.swing.JPanel();
+        TabellaContratti = new javax.swing.JScrollPane();
+        TabellaContratti1 = new javax.swing.JTable();
         Privati = new javax.swing.JPanel();
         OperazioniPrivati = new javax.swing.JPanel();
         VisualizzaPrivati = new javax.swing.JButton();
@@ -283,6 +391,9 @@ public class View extends javax.swing.JFrame {
         jTextField24 = new javax.swing.JTextField();
         Codice_fiscaleStoricoContratti = new javax.swing.JTextField();
         VisualizzaContrattiPrivato = new javax.swing.JButton();
+        jTextField29 = new javax.swing.JTextField();
+        Numero_di_contrattoPrivati = new javax.swing.JTextField();
+        VisualizzaCostoContrattoPrivato = new javax.swing.JButton();
         TabellaPrivatiPanel = new javax.swing.JPanel();
         TabellaPrivati = new javax.swing.JScrollPane();
         TabellaPrivati1 = new javax.swing.JTable();
@@ -301,11 +412,14 @@ public class View extends javax.swing.JFrame {
         jTextField25 = new javax.swing.JTextField();
         Partita_ivaStoricoContratti = new javax.swing.JTextField();
         VisualizzaContrattiAzienda = new javax.swing.JButton();
+        VisualizzaCostoContrattoAzienda = new javax.swing.JButton();
+        Numero_di_contrattoAziende = new javax.swing.JTextField();
+        jTextField34 = new javax.swing.JTextField();
         TabellaAziendePanel = new javax.swing.JPanel();
         TabellaAziende = new javax.swing.JScrollPane();
         TabellaAziende1 = new javax.swing.JTable();
         Dipendenti = new javax.swing.JPanel();
-        OperazioniAziende1 = new javax.swing.JPanel();
+        OperazioniDIpendenti = new javax.swing.JPanel();
         VisualizzaDipendenti = new javax.swing.JButton();
         jTextField17 = new javax.swing.JTextField();
         InserisciNomeDipendente = new javax.swing.JTextField();
@@ -358,15 +472,273 @@ public class View extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Concessionario");
 
+        OperazioniContratti.setPreferredSize(new java.awt.Dimension(210, 210));
+
+        VisualizzaContratti.setText("Visualizza contratti");
+        VisualizzaContratti.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VisualizzaContrattiActionPerformed(evt);
+            }
+        });
+
+        jTextField26.setEditable(false);
+        jTextField26.setText("Codice fiscale privato");
+        jTextField26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField26ActionPerformed(evt);
+            }
+        });
+
+        InserisciCodice_fiscaleContrattoPrivato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserisciCodice_fiscaleContrattoPrivatoActionPerformed(evt);
+            }
+        });
+
+        jTextField27.setEditable(false);
+        jTextField27.setText("Codice fiscale dipendente");
+        jTextField27.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField27ActionPerformed(evt);
+            }
+        });
+
+        InserisciCodice_fiscaleContrattoDipendente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserisciCodice_fiscaleContrattoDipendenteActionPerformed(evt);
+            }
+        });
+
+        jTextField28.setEditable(false);
+        jTextField28.setText("Targa auto");
+        jTextField28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField28ActionPerformed(evt);
+            }
+        });
+
+        InserisciVenditaPrivati.setText("Inserisci vendita privato");
+        InserisciVenditaPrivati.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserisciVenditaPrivatiActionPerformed(evt);
+            }
+        });
+
+        jTextField30.setEditable(false);
+        jTextField30.setText("Data di fine noleggio");
+
+        InserisciData_di_fine_noleggioPrivato.setText("YYYY-MM-DD");
+        InserisciData_di_fine_noleggioPrivato.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                InserisciData_di_fine_noleggioPrivatoFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                InserisciData_di_fine_noleggioPrivatoFocusLost(evt);
+            }
+        });
+
+        InserisciNoleggioPrivato.setText("Inserisci noleggio privato");
+        InserisciNoleggioPrivato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserisciNoleggioPrivatoActionPerformed(evt);
+            }
+        });
+
+        jTextField31.setEditable(false);
+        jTextField31.setText("Partita iva azienda");
+        jTextField31.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField31ActionPerformed(evt);
+            }
+        });
+
+        InserisciPartita_ivaContratto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserisciPartita_ivaContrattoActionPerformed(evt);
+            }
+        });
+
+        InserisciCodice_fiscaleContrattoDipendenteAzienda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserisciCodice_fiscaleContrattoDipendenteAziendaActionPerformed(evt);
+            }
+        });
+
+        jTextField32.setEditable(false);
+        jTextField32.setText("Codice fiscale dipendente");
+        jTextField32.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField32ActionPerformed(evt);
+            }
+        });
+
+        jTextField33.setEditable(false);
+        jTextField33.setText("Targa auto");
+        jTextField33.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField33ActionPerformed(evt);
+            }
+        });
+
+        jTextField35.setEditable(false);
+        jTextField35.setText("Data di fine noleggio");
+
+        InserisciData_di_fine_noleggioAzienda.setText("YYYY-MM-DD");
+        InserisciData_di_fine_noleggioAzienda.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                InserisciData_di_fine_noleggioAziendaFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                InserisciData_di_fine_noleggioAziendaFocusLost(evt);
+            }
+        });
+
+        InserisciVenditaAzienda.setText("Inserisci vendita azienda");
+        InserisciVenditaAzienda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserisciVenditaAziendaActionPerformed(evt);
+            }
+        });
+
+        InserisciNoleggioAzienda.setText("Inserisci noleggio azienda");
+        InserisciNoleggioAzienda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserisciNoleggioAziendaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout OperazioniContrattiLayout = new javax.swing.GroupLayout(OperazioniContratti);
+        OperazioniContratti.setLayout(OperazioniContrattiLayout);
+        OperazioniContrattiLayout.setHorizontalGroup(
+            OperazioniContrattiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OperazioniContrattiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(OperazioniContrattiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(OperazioniContrattiLayout.createSequentialGroup()
+                        .addGroup(OperazioniContrattiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(VisualizzaContratti)
+                            .addComponent(InserisciVenditaPrivati)
+                            .addComponent(InserisciNoleggioPrivato)
+                            .addComponent(InserisciVenditaAzienda)
+                            .addComponent(InserisciNoleggioAzienda))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(OperazioniContrattiLayout.createSequentialGroup()
+                        .addGroup(OperazioniContrattiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTextField30)
+                            .addComponent(jTextField28, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField27, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField26, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(OperazioniContrattiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(InserisciTargaContrattoPrivato)
+                            .addComponent(InserisciCodice_fiscaleContrattoDipendente)
+                            .addComponent(InserisciCodice_fiscaleContrattoPrivato, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(InserisciData_di_fine_noleggioPrivato)))
+                    .addGroup(OperazioniContrattiLayout.createSequentialGroup()
+                        .addGroup(OperazioniContrattiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTextField35)
+                            .addComponent(jTextField33, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField32, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField31, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(OperazioniContrattiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(InserisciTargaContrattoAzienda, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                            .addComponent(InserisciCodice_fiscaleContrattoDipendenteAzienda)
+                            .addComponent(InserisciPartita_ivaContratto, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(InserisciData_di_fine_noleggioAzienda))))
+                .addContainerGap())
+        );
+        OperazioniContrattiLayout.setVerticalGroup(
+            OperazioniContrattiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OperazioniContrattiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(VisualizzaContratti)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(OperazioniContrattiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(OperazioniContrattiLayout.createSequentialGroup()
+                        .addComponent(InserisciCodice_fiscaleContrattoPrivato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(InserisciCodice_fiscaleContrattoDipendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(InserisciTargaContrattoPrivato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(OperazioniContrattiLayout.createSequentialGroup()
+                        .addComponent(jTextField26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(OperazioniContrattiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(InserisciData_di_fine_noleggioPrivato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(InserisciVenditaPrivati)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(InserisciNoleggioPrivato)
+                .addGap(40, 40, 40)
+                .addGroup(OperazioniContrattiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(OperazioniContrattiLayout.createSequentialGroup()
+                        .addComponent(InserisciPartita_ivaContratto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(InserisciCodice_fiscaleContrattoDipendenteAzienda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(InserisciTargaContrattoAzienda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(OperazioniContrattiLayout.createSequentialGroup()
+                        .addComponent(jTextField31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(OperazioniContrattiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(InserisciData_di_fine_noleggioAzienda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(InserisciVenditaAzienda)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(InserisciNoleggioAzienda)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        TabellaContrattiPanel.setPreferredSize(new java.awt.Dimension(1066, 542));
+
+        TabellaContratti1.setAutoCreateRowSorter(true);
+        TabellaContratti1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        TabellaContratti.setViewportView(TabellaContratti1);
+
+        javax.swing.GroupLayout TabellaContrattiPanelLayout = new javax.swing.GroupLayout(TabellaContrattiPanel);
+        TabellaContrattiPanel.setLayout(TabellaContrattiPanelLayout);
+        TabellaContrattiPanelLayout.setHorizontalGroup(
+            TabellaContrattiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TabellaContrattiPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(TabellaContratti, javax.swing.GroupLayout.DEFAULT_SIZE, 980, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        TabellaContrattiPanelLayout.setVerticalGroup(
+            TabellaContrattiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(TabellaContratti, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout ContrattiLayout = new javax.swing.GroupLayout(Contratti);
         Contratti.setLayout(ContrattiLayout);
         ContrattiLayout.setHorizontalGroup(
             ContrattiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1300, Short.MAX_VALUE)
+            .addGroup(ContrattiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(OperazioniContratti, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TabellaContrattiPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 992, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         ContrattiLayout.setVerticalGroup(
             ContrattiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ContrattiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ContrattiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(TabellaContrattiPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(OperazioniContratti, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Contratti", Contratti);
@@ -438,6 +810,27 @@ public class View extends javax.swing.JFrame {
             }
         });
 
+        jTextField29.setEditable(false);
+        jTextField29.setText("Numero di contratto");
+        jTextField29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField29ActionPerformed(evt);
+            }
+        });
+
+        Numero_di_contrattoPrivati.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Numero_di_contrattoPrivatiActionPerformed(evt);
+            }
+        });
+
+        VisualizzaCostoContrattoPrivato.setText("Visualizza costo contratto");
+        VisualizzaCostoContrattoPrivato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VisualizzaCostoContrattoPrivatoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout OperazioniPrivatiLayout = new javax.swing.GroupLayout(OperazioniPrivati);
         OperazioniPrivati.setLayout(OperazioniPrivatiLayout);
         OperazioniPrivatiLayout.setHorizontalGroup(
@@ -449,6 +842,10 @@ public class View extends javax.swing.JFrame {
                         .addComponent(jTextField24)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Codice_fiscaleStoricoContratti, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OperazioniPrivatiLayout.createSequentialGroup()
+                        .addComponent(jTextField29)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Numero_di_contrattoPrivati, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(OperazioniPrivatiLayout.createSequentialGroup()
                         .addGroup(OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(VisualizzaPrivati)
@@ -467,7 +864,8 @@ public class View extends javax.swing.JFrame {
                                     .addComponent(InserisciCognome, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(InserisciE_mail, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(InserisciNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(VisualizzaContrattiPrivato))
+                            .addComponent(VisualizzaContrattiPrivato)
+                            .addComponent(VisualizzaCostoContrattoPrivato))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -507,12 +905,17 @@ public class View extends javax.swing.JFrame {
                     .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(VisualizzaContrattiPrivato)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(OperazioniPrivatiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Numero_di_contrattoPrivati, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(VisualizzaCostoContrattoPrivato)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         TabellaPrivati1.setAutoCreateRowSorter(true);
         TabellaPrivati1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        TabellaPrivati1.setEnabled(false);
         TabellaPrivati.setViewportView(TabellaPrivati1);
 
         javax.swing.GroupLayout TabellaPrivatiPanelLayout = new javax.swing.GroupLayout(TabellaPrivatiPanel);
@@ -521,7 +924,7 @@ public class View extends javax.swing.JFrame {
             TabellaPrivatiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TabellaPrivatiPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(TabellaPrivati, javax.swing.GroupLayout.DEFAULT_SIZE, 1054, Short.MAX_VALUE)
+                .addComponent(TabellaPrivati, javax.swing.GroupLayout.DEFAULT_SIZE, 1050, Short.MAX_VALUE)
                 .addContainerGap())
         );
         TabellaPrivatiPanelLayout.setVerticalGroup(
@@ -537,7 +940,7 @@ public class View extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(OperazioniPrivati, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(TabellaPrivatiPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(TabellaPrivatiPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         PrivatiLayout.setVerticalGroup(
@@ -612,6 +1015,27 @@ public class View extends javax.swing.JFrame {
             }
         });
 
+        VisualizzaCostoContrattoAzienda.setText("Visualizza costo contratto");
+        VisualizzaCostoContrattoAzienda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VisualizzaCostoContrattoAziendaActionPerformed(evt);
+            }
+        });
+
+        Numero_di_contrattoAziende.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Numero_di_contrattoAziendeActionPerformed(evt);
+            }
+        });
+
+        jTextField34.setEditable(false);
+        jTextField34.setText("Numero di contratto");
+        jTextField34.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField34ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout OperazioniAziendeLayout = new javax.swing.GroupLayout(OperazioniAziende);
         OperazioniAziende.setLayout(OperazioniAziendeLayout);
         OperazioniAziendeLayout.setHorizontalGroup(
@@ -623,6 +1047,10 @@ public class View extends javax.swing.JFrame {
                         .addComponent(jTextField25)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Partita_ivaStoricoContratti, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OperazioniAziendeLayout.createSequentialGroup()
+                        .addComponent(jTextField34, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Numero_di_contrattoAziende, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(OperazioniAziendeLayout.createSequentialGroup()
                         .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(OperazioniAziendeLayout.createSequentialGroup()
@@ -639,7 +1067,8 @@ public class View extends javax.swing.JFrame {
                                     .addComponent(InserisciPartita_Iva, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(VisualizzaAziende)
                             .addComponent(InserisciAzienda)
-                            .addComponent(VisualizzaContrattiAzienda))
+                            .addComponent(VisualizzaContrattiAzienda)
+                            .addComponent(VisualizzaCostoContrattoAzienda))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -675,14 +1104,19 @@ public class View extends javax.swing.JFrame {
                     .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(VisualizzaContrattiAzienda)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(OperazioniAziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Numero_di_contrattoAziende, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(VisualizzaCostoContrattoAzienda)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        TabellaAziendePanel.setPreferredSize(new java.awt.Dimension(1066, 542));
+        TabellaAziendePanel.setPreferredSize(new java.awt.Dimension(1062, 542));
 
         TabellaAziende1.setAutoCreateRowSorter(true);
         TabellaAziende1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        TabellaAziende1.setEnabled(false);
         TabellaAziende.setViewportView(TabellaAziende1);
 
         javax.swing.GroupLayout TabellaAziendePanelLayout = new javax.swing.GroupLayout(TabellaAziendePanel);
@@ -705,8 +1139,8 @@ public class View extends javax.swing.JFrame {
             AziendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AziendeLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(OperazioniAziende, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(OperazioniAziende, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TabellaAziendePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1060, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))
         );
@@ -722,7 +1156,7 @@ public class View extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Aziende", Aziende);
 
-        OperazioniAziende1.setPreferredSize(new java.awt.Dimension(210, 210));
+        OperazioniDIpendenti.setPreferredSize(new java.awt.Dimension(210, 210));
 
         VisualizzaDipendenti.setText("Visualizza dipendenti");
         VisualizzaDipendenti.addActionListener(new java.awt.event.ActionListener() {
@@ -793,6 +1227,11 @@ public class View extends javax.swing.JFrame {
                 InserisciData_di_assunzioneFocusLost(evt);
             }
         });
+        InserisciData_di_assunzione.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserisciData_di_assunzioneActionPerformed(evt);
+            }
+        });
 
         jTextField21.setEditable(false);
         jTextField21.setText("Codice fiscale");
@@ -815,39 +1254,39 @@ public class View extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout OperazioniAziende1Layout = new javax.swing.GroupLayout(OperazioniAziende1);
-        OperazioniAziende1.setLayout(OperazioniAziende1Layout);
-        OperazioniAziende1Layout.setHorizontalGroup(
-            OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(OperazioniAziende1Layout.createSequentialGroup()
+        javax.swing.GroupLayout OperazioniDIpendentiLayout = new javax.swing.GroupLayout(OperazioniDIpendenti);
+        OperazioniDIpendenti.setLayout(OperazioniDIpendentiLayout);
+        OperazioniDIpendentiLayout.setHorizontalGroup(
+            OperazioniDIpendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OperazioniDIpendentiLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(OperazioniAziende1Layout.createSequentialGroup()
-                        .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(OperazioniDIpendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(OperazioniDIpendentiLayout.createSequentialGroup()
+                        .addGroup(OperazioniDIpendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jTextField22)
                             .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(OperazioniDIpendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(InserisciStipendio, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
                             .addComponent(InserisciData_di_assunzione, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OperazioniAziende1Layout.createSequentialGroup()
-                        .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OperazioniDIpendentiLayout.createSequentialGroup()
+                        .addGroup(OperazioniDIpendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jTextField19, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField18, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField17, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField20))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(OperazioniDIpendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(InserisciCodice_fiscaleDipendente, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(InserisciCognomeDipendente, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(InserisciNumero_di_telefonoDipendente)
                             .addComponent(InserisciNomeDipendente)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OperazioniAziende1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OperazioniDIpendentiLayout.createSequentialGroup()
                         .addComponent(jTextField21)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Codice_fiscaleNumeroDiContratti, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(OperazioniAziende1Layout.createSequentialGroup()
-                        .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(OperazioniDIpendentiLayout.createSequentialGroup()
+                        .addGroup(OperazioniDIpendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(VisualizzaDipendenti)
                             .addComponent(InserisciDipendente)
                             .addComponent(VisualizzaNumeroContratti))
@@ -855,16 +1294,16 @@ public class View extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        OperazioniAziende1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextField17, jTextField18, jTextField19, jTextField20, jTextField22, jTextField23});
+        OperazioniDIpendentiLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextField17, jTextField18, jTextField19, jTextField20, jTextField22, jTextField23});
 
-        OperazioniAziende1Layout.setVerticalGroup(
-            OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(OperazioniAziende1Layout.createSequentialGroup()
+        OperazioniDIpendentiLayout.setVerticalGroup(
+            OperazioniDIpendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OperazioniDIpendentiLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(VisualizzaDipendenti)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(OperazioniAziende1Layout.createSequentialGroup()
+                .addGroup(OperazioniDIpendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(OperazioniDIpendentiLayout.createSequentialGroup()
                         .addComponent(InserisciNomeDipendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(InserisciCognomeDipendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -872,7 +1311,7 @@ public class View extends javax.swing.JFrame {
                         .addComponent(InserisciCodice_fiscaleDipendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(InserisciNumero_di_telefonoDipendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(OperazioniAziende1Layout.createSequentialGroup()
+                    .addGroup(OperazioniDIpendentiLayout.createSequentialGroup()
                         .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -881,19 +1320,19 @@ public class View extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(OperazioniAziende1Layout.createSequentialGroup()
+                .addGroup(OperazioniDIpendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(OperazioniDIpendentiLayout.createSequentialGroup()
                         .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(OperazioniAziende1Layout.createSequentialGroup()
+                    .addGroup(OperazioniDIpendentiLayout.createSequentialGroup()
                         .addComponent(InserisciStipendio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(InserisciData_di_assunzione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(InserisciDipendente)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(OperazioniAziende1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(OperazioniDIpendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Codice_fiscaleNumeroDiContratti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -901,13 +1340,12 @@ public class View extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        OperazioniAziende1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jTextField17, jTextField18, jTextField19, jTextField20, jTextField22, jTextField23});
+        OperazioniDIpendentiLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jTextField17, jTextField18, jTextField19, jTextField20, jTextField22, jTextField23});
 
         TabellaDipendentiPanel.setPreferredSize(new java.awt.Dimension(1066, 542));
 
         TabellaDipendenti1.setAutoCreateRowSorter(true);
         TabellaDipendenti1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        TabellaDipendenti1.setEnabled(false);
         TabellaDipendenti.setViewportView(TabellaDipendenti1);
 
         javax.swing.GroupLayout TabellaDipendentiPanelLayout = new javax.swing.GroupLayout(TabellaDipendentiPanel);
@@ -930,7 +1368,7 @@ public class View extends javax.swing.JFrame {
             DipendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DipendentiLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(OperazioniAziende1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(OperazioniDIpendenti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(TabellaDipendentiPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1060, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))
@@ -941,7 +1379,7 @@ public class View extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(DipendentiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(TabellaDipendentiPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(OperazioniAziende1, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE))
+                    .addComponent(OperazioniDIpendenti, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -1147,7 +1585,6 @@ public class View extends javax.swing.JFrame {
 
         TabellaAuto1.setAutoCreateRowSorter(true);
         TabellaAuto1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        TabellaAuto1.setEnabled(false);
         TabellaAuto.setViewportView(TabellaAuto1);
 
         javax.swing.GroupLayout TabellaAutoPanelLayout = new javax.swing.GroupLayout(TabellaAutoPanel);
@@ -1521,6 +1958,220 @@ public class View extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_VisualizzaContrattiAziendaActionPerformed
 
+    private void VisualizzaContrattiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaContrattiActionPerformed
+        ((javax.swing.table.DefaultTableModel) this.TabellaContratti1.getModel()).setRowCount(0);
+            this.loadContratti();
+            this.repaint();
+    }//GEN-LAST:event_VisualizzaContrattiActionPerformed
+
+    private void jTextField26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField26ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField26ActionPerformed
+
+    private void InserisciCodice_fiscaleContrattoPrivatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciCodice_fiscaleContrattoPrivatoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InserisciCodice_fiscaleContrattoPrivatoActionPerformed
+
+    private void jTextField27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField27ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField27ActionPerformed
+
+    private void InserisciCodice_fiscaleContrattoDipendenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciCodice_fiscaleContrattoDipendenteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InserisciCodice_fiscaleContrattoDipendenteActionPerformed
+
+    private void InserisciVenditaPrivatiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciVenditaPrivatiActionPerformed
+        for (JTextField field : this.insertVenditaPrivato.values()) {
+            if(field.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+        String codice_fiscalePrivato = this.insertVenditaPrivato.get("codice_fiscalePrivato").getText();
+        String codice_fiscaleDipendente = this.insertVenditaPrivato.get("codice_fiscaleDipendente").getText();
+        String targa = this.insertVenditaPrivato.get("targa").getText();
+        if(this.logic.insertVenditaPrivato(codice_fiscalePrivato, codice_fiscaleDipendente, targa)){
+            JOptionPane.showMessageDialog(this, "Vendita privato inserita correttamente", "Inserimento", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "vendita privato non inserita", "Inserimento", JOptionPane.ERROR_MESSAGE);
+        }
+        for (JTextField field : this.insertVenditaPrivato.values()) {
+            field.setText("");
+        }
+    }//GEN-LAST:event_InserisciVenditaPrivatiActionPerformed
+
+    private void jTextField28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField28ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField28ActionPerformed
+
+    private void jTextField31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField31ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField31ActionPerformed
+
+    private void InserisciPartita_ivaContrattoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciPartita_ivaContrattoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InserisciPartita_ivaContrattoActionPerformed
+
+    private void InserisciCodice_fiscaleContrattoDipendenteAziendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciCodice_fiscaleContrattoDipendenteAziendaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InserisciCodice_fiscaleContrattoDipendenteAziendaActionPerformed
+
+    private void jTextField32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField32ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField32ActionPerformed
+
+    private void jTextField33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField33ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField33ActionPerformed
+
+    private void InserisciVenditaAziendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciVenditaAziendaActionPerformed
+        for (JTextField field : this.insertVenditaAzienda.values()) {
+            if(field.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+        long partita_iva = Long.valueOf(this.insertVenditaAzienda.get("partita_iva").getText());
+        String codice_fiscaleDipendente = this.insertVenditaAzienda.get("codice_fiscaleDipendente").getText();
+        String targa = this.insertVenditaAzienda.get("targa").getText();
+        if(this.logic.insertVenditaAzienda(partita_iva, codice_fiscaleDipendente, targa)){
+            JOptionPane.showMessageDialog(this, "Vendita azienda inserita correttamente", "Inserimento", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "vendita azienda non inserita", "Inserimento", JOptionPane.ERROR_MESSAGE);
+        }
+        for (JTextField field : this.insertVenditaAzienda.values()) {
+            field.setText("");
+        }
+    }//GEN-LAST:event_InserisciVenditaAziendaActionPerformed
+
+    private void InserisciNoleggioPrivatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciNoleggioPrivatoActionPerformed
+        for (JTextField field : this.insertNoleggioPrivato.values()) {
+            if(field.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+        if (LocalDate.now().isAfter(Date.valueOf(this.insertNoleggioPrivato.get("data_di_fine_noleggio").getText()).toLocalDate())) {
+            JOptionPane.showMessageDialog(this, "La data di fine noleggio non può essere antecedente alla data odierna", "Errore", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String codice_fiscalePrivato = this.insertNoleggioPrivato.get("codice_fiscalePrivato").getText();
+        String codice_fiscaleDipendente = this.insertNoleggioPrivato.get("codice_fiscaleDipendente").getText();
+        String targa = this.insertNoleggioPrivato.get("targa").getText();
+        Date data_di_fine_noleggio = Date.valueOf(this.insertNoleggioPrivato.get("data_di_fine_noleggio").getText());
+        if(this.logic.insertNoleggioPrivato(codice_fiscalePrivato, codice_fiscaleDipendente, targa, data_di_fine_noleggio)){
+            JOptionPane.showMessageDialog(this, "Noleggio privato inserito correttamente", "Inserimento", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Noleggio privato non inserito", "Inserimento", JOptionPane.ERROR_MESSAGE);
+        }
+        for (JTextField field : this.insertNoleggioPrivato.values()) {
+            field.setText("");
+        }
+    }//GEN-LAST:event_InserisciNoleggioPrivatoActionPerformed
+
+    private void InserisciData_di_fine_noleggioPrivatoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_InserisciData_di_fine_noleggioPrivatoFocusGained
+        if(InserisciData_di_fine_noleggioPrivato.getText().equals("YYYY-MM-DD")){
+            InserisciData_di_fine_noleggioPrivato.setText("");
+        }
+    }//GEN-LAST:event_InserisciData_di_fine_noleggioPrivatoFocusGained
+
+    private void InserisciData_di_fine_noleggioPrivatoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_InserisciData_di_fine_noleggioPrivatoFocusLost
+        if(InserisciData_di_fine_noleggioPrivato.getText().equals("")){
+            InserisciData_di_fine_noleggioPrivato.setText("YYYY-MM-DD");
+        }
+    }//GEN-LAST:event_InserisciData_di_fine_noleggioPrivatoFocusLost
+
+    private void InserisciData_di_fine_noleggioAziendaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_InserisciData_di_fine_noleggioAziendaFocusGained
+        if(InserisciData_di_fine_noleggioAzienda.getText().equals("YYYY-MM-DD")){
+            InserisciData_di_fine_noleggioAzienda.setText("");
+        }
+    }//GEN-LAST:event_InserisciData_di_fine_noleggioAziendaFocusGained
+
+    private void InserisciData_di_fine_noleggioAziendaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_InserisciData_di_fine_noleggioAziendaFocusLost
+        if(InserisciData_di_fine_noleggioAzienda.getText().equals("")){
+            InserisciData_di_fine_noleggioAzienda.setText("YYYY-MM-DD");
+        }
+    }//GEN-LAST:event_InserisciData_di_fine_noleggioAziendaFocusLost
+
+    private void InserisciData_di_assunzioneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciData_di_assunzioneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InserisciData_di_assunzioneActionPerformed
+
+    private void InserisciNoleggioAziendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserisciNoleggioAziendaActionPerformed
+        for (JTextField field : this.insertNoleggioAzienda.values()) {
+            if(field.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+        if (LocalDate.now().isAfter(Date.valueOf(this.insertNoleggioAzienda.get("data_di_fine_noleggio").getText()).toLocalDate())) {
+            JOptionPane.showMessageDialog(this, "La data di fine noleggio non può essere antecedente alla data odierna", "Errore", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Long partita_iva = Long.valueOf(this.insertNoleggioAzienda.get("partita_iva").getText());
+        String codice_fiscaleDipendente = this.insertNoleggioAzienda.get("codice_fiscaleDipendente").getText();
+        String targa = this.insertNoleggioAzienda.get("targa").getText();
+        Date data_di_fine_noleggio = Date.valueOf(this.insertNoleggioAzienda.get("data_di_fine_noleggio").getText());
+        if(this.logic.insertNoleggioAzienda(partita_iva, codice_fiscaleDipendente, targa, data_di_fine_noleggio)){
+            JOptionPane.showMessageDialog(this, "Noleggio privato inserito correttamente", "Inserimento", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Noleggio privato non inserito", "Inserimento", JOptionPane.ERROR_MESSAGE);
+        }
+        for (JTextField field : this.insertNoleggioAzienda.values()) {
+            field.setText("");
+        }
+    }//GEN-LAST:event_InserisciNoleggioAziendaActionPerformed
+
+    private void jTextField29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField29ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField29ActionPerformed
+
+    private void Numero_di_contrattoPrivatiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Numero_di_contrattoPrivatiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Numero_di_contrattoPrivatiActionPerformed
+
+    private void VisualizzaCostoContrattoPrivatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaCostoContrattoPrivatoActionPerformed
+        if (this.Numero_di_contrattoPrivati.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int numero_di_contratto = Integer.valueOf(this.Numero_di_contrattoPrivati.getText());
+        List<String> info = this.logic.getCostoContrattoPrivato(numero_di_contratto);
+        
+        if(info.size()>0){
+            ((javax.swing.table.DefaultTableModel) this.TabellaPrivati1.getModel()).setRowCount(0);
+            this.loadCostoContrattoPrivato(info);
+            this.repaint();
+        } else {
+            JOptionPane.showMessageDialog(this, "Contratto n." + numero_di_contratto + " non trovato per i privati", "lettura", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_VisualizzaCostoContrattoPrivatoActionPerformed
+
+    private void VisualizzaCostoContrattoAziendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizzaCostoContrattoAziendaActionPerformed
+        if (this.Numero_di_contrattoAziende.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Inserire tutti i campi", "Errore", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int numero_di_contratto = Integer.valueOf(this.Numero_di_contrattoAziende.getText());
+        List<String> info = this.logic.getCostoContrattoAzienda(numero_di_contratto);
+        
+        if(info.size()>0){
+            ((javax.swing.table.DefaultTableModel) this.TabellaAziende1.getModel()).setRowCount(0);
+            this.loadCostoContrattoAzienda(info);
+            this.repaint();
+        } else {
+            JOptionPane.showMessageDialog(this, "Contratto n." + numero_di_contratto + " non trovato per le aziende", "lettura", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_VisualizzaCostoContrattoAziendaActionPerformed
+
+    private void Numero_di_contrattoAziendeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Numero_di_contrattoAziendeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Numero_di_contrattoAziendeActionPerformed
+
+    private void jTextField34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField34ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField34ActionPerformed
+
     public void initLook() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1558,15 +2209,22 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton InserisciAuto;
     private javax.swing.JButton InserisciAzienda;
     private javax.swing.JTextField InserisciCodice_fiscale;
+    private javax.swing.JTextField InserisciCodice_fiscaleContrattoDipendente;
+    private javax.swing.JTextField InserisciCodice_fiscaleContrattoDipendenteAzienda;
+    private javax.swing.JTextField InserisciCodice_fiscaleContrattoPrivato;
     private javax.swing.JTextField InserisciCodice_fiscaleDipendente;
     private javax.swing.JTextField InserisciCognome;
     private javax.swing.JTextField InserisciCognomeDipendente;
     private javax.swing.JTextField InserisciData_di_assunzione;
+    private javax.swing.JTextField InserisciData_di_fine_noleggioAzienda;
+    private javax.swing.JTextField InserisciData_di_fine_noleggioPrivato;
     private javax.swing.JButton InserisciDipendente;
     private javax.swing.JTextField InserisciE_mail;
     private javax.swing.JTextField InserisciFatturato;
     private javax.swing.JTextField InserisciMarca;
     private javax.swing.JTextField InserisciModello;
+    private javax.swing.JButton InserisciNoleggioAzienda;
+    private javax.swing.JButton InserisciNoleggioPrivato;
     private javax.swing.JTextField InserisciNome;
     private javax.swing.JTextField InserisciNomeAzienda;
     private javax.swing.JTextField InserisciNomeDipendente;
@@ -1574,13 +2232,21 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JTextField InserisciNumero_di_telefono;
     private javax.swing.JTextField InserisciNumero_di_telefonoDipendente;
     private javax.swing.JTextField InserisciPartita_Iva;
+    private javax.swing.JTextField InserisciPartita_ivaContratto;
     private javax.swing.JButton InserisciPrivato;
     private javax.swing.JTextField InserisciSede;
     private javax.swing.JTextField InserisciStipendio;
     private javax.swing.JTextField InserisciTarga;
+    private javax.swing.JTextField InserisciTargaContrattoAzienda;
+    private javax.swing.JTextField InserisciTargaContrattoPrivato;
+    private javax.swing.JButton InserisciVenditaAzienda;
+    private javax.swing.JButton InserisciVenditaPrivati;
+    private javax.swing.JTextField Numero_di_contrattoAziende;
+    private javax.swing.JTextField Numero_di_contrattoPrivati;
     private javax.swing.JPanel OperazioniAuto;
     private javax.swing.JPanel OperazioniAziende;
-    private javax.swing.JPanel OperazioniAziende1;
+    private javax.swing.JPanel OperazioniContratti;
+    private javax.swing.JPanel OperazioniDIpendenti;
     private javax.swing.JPanel OperazioniPrivati;
     private javax.swing.JTextField Partita_ivaStoricoContratti;
     private javax.swing.JPanel Privati;
@@ -1593,6 +2259,9 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JScrollPane TabellaAziende;
     private javax.swing.JTable TabellaAziende1;
     private javax.swing.JPanel TabellaAziendePanel;
+    private javax.swing.JScrollPane TabellaContratti;
+    private javax.swing.JTable TabellaContratti1;
+    private javax.swing.JPanel TabellaContrattiPanel;
     private javax.swing.JScrollPane TabellaDipendenti;
     private javax.swing.JTable TabellaDipendenti1;
     private javax.swing.JPanel TabellaDipendentiPanel;
@@ -1602,8 +2271,11 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton VisualizzaAuto;
     private javax.swing.JButton VisualizzaAutoDisponibili;
     private javax.swing.JButton VisualizzaAziende;
+    private javax.swing.JButton VisualizzaContratti;
     private javax.swing.JButton VisualizzaContrattiAzienda;
     private javax.swing.JButton VisualizzaContrattiPrivato;
+    private javax.swing.JButton VisualizzaCostoContrattoAzienda;
+    private javax.swing.JButton VisualizzaCostoContrattoPrivato;
     private javax.swing.JButton VisualizzaDipendenti;
     private javax.swing.JButton VisualizzaModelli;
     private javax.swing.JButton VisualizzaNumeroContratti;
@@ -1630,7 +2302,17 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTextField24;
     private javax.swing.JTextField jTextField25;
+    private javax.swing.JTextField jTextField26;
+    private javax.swing.JTextField jTextField27;
+    private javax.swing.JTextField jTextField28;
+    private javax.swing.JTextField jTextField29;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField30;
+    private javax.swing.JTextField jTextField31;
+    private javax.swing.JTextField jTextField32;
+    private javax.swing.JTextField jTextField33;
+    private javax.swing.JTextField jTextField34;
+    private javax.swing.JTextField jTextField35;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
