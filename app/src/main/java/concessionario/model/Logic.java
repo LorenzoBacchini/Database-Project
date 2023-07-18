@@ -505,14 +505,26 @@ public class Logic {
 
     public List<String> getContratti(){
         final String query = "SELECT * FROM"+
-            " (SELECT c.*, n.Data_di_inizio_noleggio, n.Data_di_fine_noleggio, null as Data_di_vendita"+
-            " FROM contratto c, noleggio n"+
-            " WHERE c.Numero_di_contratto = n.Numero_di_contratto"+
-            " UNION ALL"+
-            " SELECT c.*, null, null, v.Data_di_vendita"+
-            " FROM contratto c, vendita v"+
-            " WHERE c.Numero_di_contratto = v.Numero_di_contratto) as contratti"+
-            " ORDER BY Numero_di_contratto;";
+        " (SELECT c.*, n.Data_di_inizio_noleggio, n.Data_di_fine_noleggio, null as Data_di_vendita, null as Percentuale_di_sconto"+
+        " FROM contratto c, noleggio n"+
+        " WHERE c.Numero_di_contratto = n.Numero_di_contratto"+
+        " AND c.Sconto is null"+
+        " UNION"+
+        " SELECT c.*, null, null, v.Data_di_vendita, null"+
+        " FROM contratto c, vendita v"+
+        " WHERE c.Numero_di_contratto = v.Numero_di_contratto"+
+        " AND c.Sconto is null"+
+        " UNION "+
+        " SELECT c.*, n.Data_di_inizio_noleggio, n.Data_di_fine_noleggio, null as Data_di_vendita, s.Percentuale_di_sconto"+
+        " FROM contratto c, noleggio n, sconto s"+
+        " WHERE c.Numero_di_contratto = n.Numero_di_contratto"+
+        " AND c.Sconto = s.Fatturato"+
+        " UNION"+
+        " SELECT c.*, null, null, v.Data_di_vendita, s.Percentuale_di_sconto"+
+        " FROM contratto c, vendita v, sconto s"+
+        " WHERE c.Numero_di_contratto = v.Numero_di_contratto"+
+        " AND c.Sconto = s.Fatturato) as contratti"+
+        " ORDER BY Numero_di_contratto;";
 
         try (final Statement statement = this.connection.createStatement()) {
             final ResultSet result = statement.executeQuery(query);
@@ -523,6 +535,7 @@ public class Logic {
                 info.add(result.getString("Privato"));
                 info.add(result.getString("Dipendente"));
                 info.add(result.getString("Sconto"));
+                info.add(result.getString("Percentuale_di_sconto"));
                 info.add(result.getString("Auto"));
                 info.add(result.getString("Data_di_vendita"));
                 info.add(result.getString("Data_di_inizio_noleggio"));
